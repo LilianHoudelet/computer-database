@@ -8,106 +8,54 @@
 	<version>1.0</version>
 	<packaging>pom</packaging>
 	<properties>
-		
-
 		<junit.version>4.12</junit.version>
-
 		<mockito.version>1.10.19</mockito.version>
-
 		<dbunit.version>2.7.0</dbunit.version>
-
 		<jstl.version>1.2</jstl.version>
-
 		<selenium.version>3.141.59</selenium.version>
-
 		<phantomjs.version>1.4.1</phantomjs.version>
-
 		<dbUnit.version>2.7.0</dbUnit.version>
-
 		<h2database.version>1.4.200</h2database.version>
-
 		<javax.servlet.version>3.0.1 </javax.servlet.version>
-
-	
-
 		<spring-webmvc.version>5.2.0.RELEASE</spring-webmvc.version>
-
 		<spring-test.version>5.2.0.RELEASE</spring-test.version>
-
-
-
 		<spring-test-dbunit.version>1.3.0</spring-test-dbunit.version>
-
 		<spring-security.version>5.2.0.RELEASE</spring-security.version>
-
 		<validation-api.version>2.0.1.Final</validation-api.version>
-
-
-
-
-<jackson-core.version>2.12.3</jackson-core.version>
+		<jackson-core.version>2.12.3</jackson-core.version>
 	</properties>
 
 	<build>
-
 		<resources>
-
 			<resource>
-
 				<directory>src/main/resources</directory>
-
 			</resource>
-
 		</resources>
-
 		<testResources>
-
 			<testResource>
-
 				<directory>src/test/resources</directory>
-
 			</testResource>
-
 		</testResources>
 
 		<plugins>
-
 			<plugin>
-
 				<groupId>org.apache.maven.plugins</groupId>
-
 				<artifactId>maven-compiler-plugin</artifactId>
-
 				<version>3.8.1</version>
-
 				<configuration>
-
 					<source>1.8</source>
-
 					<target>1.8</target>
-
 				</configuration>
-
 			</plugin>
-
 		</plugins>
-
 	</build>
 
 	<dependencies>
-
-
-
-
-
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 
 		<dependency>
-
 			<groupId>org.seleniumhq.selenium</groupId>
-
 			<artifactId>selenium-java</artifactId>
-
 			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -115,7 +63,6 @@
 		<!-- https://mvnrepository.com/artifact/com.codeborne/phantomjsdriver -->
 
 		<dependency>
-
 			<groupId>com.codeborne</groupId>
 
 			<artifactId>phantomjsdriver</artifactId>
@@ -256,17 +203,9 @@
 
 
 
- 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-<!--
-		<dependency>
-
-			<groupId>org.springframework</groupId>
-
-			<artifactId>spring-jdbc</artifactId>
-
-			<version>${spring-webmvc.version}</version>
-
-		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-jdbc</artifactId> 
+			<version>${spring-webmvc.version}</version> </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/com.github.springtestdbunit/spring-test-dbunit -->
 
@@ -295,6 +234,14 @@
 
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
 
 			<groupId>org.hamcrest</groupId>
@@ -309,14 +256,13 @@
 
 
 
-		
+
 
 	</dependencies>
 
 
 	<modules>
 
-		<module>console</module>
 		<module>binding</module>
 		<module>core</module>
 		<module>exception</module>

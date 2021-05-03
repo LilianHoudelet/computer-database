@@ -39,7 +39,7 @@
 
 		<dependency>
 			<groupId>com.excilys</groupId>
-			<artifactId>persistance</artifactId>
+			<artifactId>persistence</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

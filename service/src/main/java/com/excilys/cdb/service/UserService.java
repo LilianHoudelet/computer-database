@@ -8,14 +8,14 @@ import com.excilys.cdb.model.User;
 @Service
 public class UserService {
 
-	UserDAO userDao;
+	private final UserDAO userDao;
 
 	public UserService(UserDAO userDao) {
-
 		this.userDao = userDao;
 	}
 
 	public void create(User user) {
 		userDao.create(user);
 	}
+	
 }

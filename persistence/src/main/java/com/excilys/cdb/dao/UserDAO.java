@@ -12,9 +12,9 @@ import com.excilys.cdb.model.User;
 
 @Repository
 public class UserDAO {
-	private SessionFactory sessionFactory;
-
-	private MapperUser mapperUser;
+	
+	private final SessionFactory sessionFactory;
+	private final MapperUser mapperUser;
 
 	public UserDAO(SessionFactory sessionFactory, MapperUser mapperUser) {
 		this.mapperUser = mapperUser;
@@ -28,14 +28,13 @@ public class UserDAO {
 			if (id != null) {
 				user.setId(id.intValue());
 			} else {
-				throw new DAOException("Échec de la création de l'ordinateur en base, aucun ID auto-généré retourné.");
+				throw new DAOException("No user created on the database, no generated ID returned.");
 			}
-
 		} catch (HibernateException e) {
 			LoggerCdb.logError(this.getClass(), e);
 		} catch (DAOException e) {
 			LoggerCdb.logError(this.getClass(), e);
 		}
-
 	}
+	
 }

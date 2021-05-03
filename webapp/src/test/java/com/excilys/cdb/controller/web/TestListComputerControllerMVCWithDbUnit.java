@@ -45,7 +45,7 @@ public class TestListComputerControllerMVCWithDbUnit extends DataSourceDBUnitTes
 	private MockMvc mockMvc;
 
 	@Autowired
-	SessionAttributes sessionAttributes;
+//	SessionAttributes sessionAttributes;
 
 	@Before
 	public void setup() throws Exception {

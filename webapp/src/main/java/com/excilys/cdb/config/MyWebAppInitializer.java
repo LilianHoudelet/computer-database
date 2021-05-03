@@ -3,7 +3,6 @@ package com.excilys.cdb.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.excilys.cdb.persistance.config.HibernateConfig;
 import com.excilys.cdb.security.config.SpringSecurityConfig;
 
 @Configuration

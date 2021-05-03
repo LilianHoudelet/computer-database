@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.dao.CompanyDAOImpl;
-import com.excilys.cdb.dao.ComputerDAOImpl;
+import com.excilys.cdb.dao.CompanyDAO;
+import com.excilys.cdb.dao.ComputerDAO;
 import com.excilys.cdb.exception.DAOConfigurationException;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.InputException;
@@ -19,27 +19,19 @@ import com.excilys.cdb.model.Page;
 @Service
 public class PageService {
 
-	ComputerDAOImpl computerDAOImpl;
+	private final ComputerDAO computerDAO;
+	private final CompanyDAO companyDAO;
 
-	CompanyDAOImpl companyDAOImpl;
-
-	public PageService(ComputerDAOImpl computerDAOImpl, CompanyDAOImpl companyDAOImpl) {
-
-		this.computerDAOImpl = computerDAOImpl;
-		this.companyDAOImpl = companyDAOImpl;
+	public PageService(ComputerDAO computerDAO, CompanyDAO companyDAO) {
+		this.computerDAO = computerDAO;
+		this.companyDAO = companyDAO;
 	}
 
-	/**
-	 * @param page the page searched
-	 * @return List<Computer> a list of computer
-	 */
 	@Transactional
 	public List<Computer> searchAllComputerPagination(Page<Computer> page) {
 		try {
-
-			return computerDAOImpl.searchAllPagination(page);
+			return computerDAO.searchAllPagination(page);
 		} catch (
-
 		DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {
@@ -51,7 +43,7 @@ public class PageService {
 	@Transactional
 	public List<Computer> searchNamePagination(Page<Computer> page, String name) {
 		try {
-			List<Computer> computers = computerDAOImpl.searchNamePagination(page, name);
+			List<Computer> computers = computerDAO.searchNamePagination(page, name);
 			if (computers.size() == 0) {
 				throw new InputException(name);
 			}
@@ -67,10 +59,8 @@ public class PageService {
 	@Transactional
 	public List<Company> searchAllCompanyPage(int pageInt) {
 		try {
-
-			return companyDAOImpl.searchAllPagination(pageInt);
+			return companyDAO.searchAllPagination(pageInt);
 		} catch (
-
 		DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {

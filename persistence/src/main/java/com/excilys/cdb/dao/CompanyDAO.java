@@ -17,35 +17,32 @@ import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 
 @Repository
-public class CompanyDAOImpl {
+public class CompanyDAO {
 
-	private MapperCompany mapperCompany;
+	private final MapperCompany mapperCompany;
+	private final SessionFactory sessionFactory;
 
-	private SessionFactory sessionFactory;
-
-	public CompanyDAOImpl(SessionFactory sessionFactory, MapperCompany mapperCompany) {
-
+	public CompanyDAO(SessionFactory sessionFactory, MapperCompany mapperCompany) {
 		this.sessionFactory = sessionFactory;
 		this.mapperCompany = mapperCompany;
 	}
 
 	private static final int OBJECT_NUMBER_PER_PAGE = 10;
-
-	private static final String SQL_ALL_COMPANY = "FROM CompanyDTOPersistance ORDER BY id";
-
-	private static final String SQL_ALL_COMPANY_PAGINATION = "FROM CompanyDTOPersistance ORDER BY id ";
+	private static final String HQL_ALL_COMPANY = "FROM CompanyDTOPersistance ORDER BY id";
+	private static final String HQL_ALL_COMPANY_PAGINATION = "FROM CompanyDTOPersistance ORDER BY id ";
 //	private static final String SQL_DELETE = "DELETE FROM company WHERE id=:id;";
-	private static final String SQL_DELETE = "DELETE FROM CompanyDTOPersistance WHERE id=:id;";
+	private static final String HQL_DELETE = "DELETE FROM CompanyDTOPersistance WHERE id=:id;";
 //	private static final String SQL_DELETE_COMPUTER = "DELETE FROM computer WHERE company_id=:id;";
-	private static final String SQL_DELETE_COMPUTER = "DELETE FROM ComputerDTOPersistance WHERE companyDTOPersistance.id=:id;";
+	private static final String HQL_DELETE_COMPUTER = "DELETE FROM ComputerDTOPersistance WHERE companyDTOPersistance.id=:id;";
 
-	@Transactional
 	public List<Company> searchAll() {
 		List<Company> companies = new ArrayList<>();
 		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			companiesDTO = session.createQuery(SQL_ALL_COMPANY, CompanyDTOPersistence.class).list();
+
+			companiesDTO = session.createQuery(HQL_ALL_COMPANY, CompanyDTOPersistence.class).list();
+
 			companies = mapperCompany.mapFromListDTOPersistanceToListModel(companiesDTO);
 			return companies;
 		} catch (HibernateException e) {
@@ -54,14 +51,15 @@ public class CompanyDAOImpl {
 		return companies;
 	}
 
-	@Transactional
 	public List<Company> searchAllPagination(int page) throws DAOException {
 		List<Company> companies = new ArrayList<>();
 		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<CompanyDTOPersistence> query = session.createQuery(SQL_ALL_COMPANY_PAGINATION,
+
+			Query<CompanyDTOPersistence> query = session.createQuery(HQL_ALL_COMPANY_PAGINATION,
 					CompanyDTOPersistence.class);
+
 			query.setFirstResult(page * OBJECT_NUMBER_PER_PAGE);
 			query.setMaxResults(OBJECT_NUMBER_PER_PAGE);
 			companiesDTO = query.list();
@@ -71,7 +69,6 @@ public class CompanyDAOImpl {
 			LoggerCdb.logError(this.getClass(), e);
 		}
 		return companies;
-
 	}
 
 	@Transactional
@@ -79,20 +76,19 @@ public class CompanyDAOImpl {
 
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<?> queryComputer = session.createQuery(SQL_DELETE_COMPUTER);
+			Query<?> queryComputer = session.createQuery(HQL_DELETE_COMPUTER);
 			queryComputer.setParameter("id", id);
 			queryComputer.executeUpdate();
 
-			Query<?> queryCompany = session.createQuery(SQL_DELETE);
+			Query<?> queryCompany = session.createQuery(HQL_DELETE);
 			queryCompany.setParameter("id", id);
 			int statut = queryCompany.executeUpdate();
 			if (statut == 0) {
-				throw new DAOException("Échec de la suppression de la company, aucune ligne ajoutée dans la table.");
+				throw new DAOException("Deleting company failure, no row were added to the table.");
 			}
 		} catch (HibernateException e) {
 			LoggerCdb.logError(this.getClass(), e);
 		}
-
 	}
 
 }

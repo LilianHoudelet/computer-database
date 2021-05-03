@@ -13,7 +13,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 public class TestDAOCompany extends DataSourceDBUnitTest {
 
 	@Autowired
-	CompanyDAOImpl companyDAOImpl;
+	CompanyDAO companyDAOImpl;
 
 	@Test
 	public void testInsertThenSearchCompanyDAO() throws Exception {

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.excilys.cdb.dao.ComputerDAOImpl;
+import com.excilys.cdb.dao.ComputerDAO;
 import com.excilys.cdb.exception.DAOConfigurationException;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
@@ -15,16 +15,16 @@ import com.excilys.cdb.model.Computer;
 @Service
 public class ComputerService {
 
-	ComputerDAOImpl computerDAOImpl;
+	ComputerDAO computerDAO;
 
-	public ComputerService(ComputerDAOImpl computerDAOImpl) {
+	public ComputerService(ComputerDAO computerDAO) {
 
-		this.computerDAOImpl = computerDAOImpl;
+		this.computerDAO = computerDAO;
 	}
 
 	public List<Computer> searchAllComputer() {
 		try {
-			return computerDAOImpl.searchAll();
+			return computerDAO.searchAll();
 		} catch (DAOConfigurationException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOException e) {
@@ -36,7 +36,7 @@ public class ComputerService {
 	public Optional<Computer> searchByIdComputer(Long idToSearch) {
 		try {
 
-			Optional<Computer> compSearched = computerDAOImpl.search(idToSearch);
+			Optional<Computer> compSearched = computerDAO.search(idToSearch);
 			return compSearched;
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -50,7 +50,7 @@ public class ComputerService {
 		boolean success = false;
 		try {
 
-			computerDAOImpl.create(compToCreate);
+			computerDAO.create(compToCreate);
 			success = true;
 
 		} catch (DAOException e) {
@@ -66,7 +66,7 @@ public class ComputerService {
 		try {
 //
 //			CliMenu.showUpdateOneComputer();
-			computerDAOImpl.update(compToUpdate);
+			computerDAO.update(compToUpdate);
 			success = true;
 
 		} catch (DAOException e) {
@@ -81,7 +81,7 @@ public class ComputerService {
 		boolean success = false;
 		try {
 
-			computerDAOImpl.delete(compToDeleteID);
+			computerDAO.delete(compToDeleteID);
 			success = true;
 
 		} catch (DAOException e) {
@@ -97,7 +97,7 @@ public class ComputerService {
 		int nbComputer = 0;
 		try {
 
-			nbComputer = computerDAOImpl.searchAllCount();
+			nbComputer = computerDAO.searchAllCount();
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -111,7 +111,7 @@ public class ComputerService {
 		int nbComputer = 0;
 		try {
 
-			nbComputer = computerDAOImpl.searchNameCount(name);
+			nbComputer = computerDAO.searchNameCount(name);
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);

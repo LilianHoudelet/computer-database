@@ -268,8 +268,8 @@
 		<module>core</module>
 		<module>exception</module>
 		<module>logger</module>
-		<module>persistance</module>
 		<module>service</module>
 		<module>webapp</module>
+		<module>persistence</module>
 	</modules>
 </project>

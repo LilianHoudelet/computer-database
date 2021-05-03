@@ -22,10 +22,10 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 public class TestDAOComputer extends DataSourceDBUnitTest {
 
 	@Autowired
-	ComputerDAOImpl computerDAOImpl;
+	ComputerDAO computerDAOImpl;
 
 	@Autowired
-	CompanyDAOImpl companyDAOImpl;
+	CompanyDAO companyDAOImpl;
 
 	@Test
 	public void testSearchAllPaginationCompanyDAO() throws Exception {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.excilys.cdb.dao.CompanyDAOImpl;
+import com.excilys.cdb.dao.CompanyDAO;
 import com.excilys.cdb.exception.DAOConfigurationException;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
@@ -14,17 +14,17 @@ import com.excilys.cdb.model.Company;
 @Service
 public class CompanyService {
 
-	CompanyDAOImpl companyDAOImpl;
+	CompanyDAO companyDAO;
 
-	public CompanyService(CompanyDAOImpl companyDAOImpl) {
+	public CompanyService(CompanyDAO companyDAO) {
 
-		this.companyDAOImpl = companyDAOImpl;
+		this.companyDAO = companyDAO;
 	}
 
 	public List<Company> searchAllCompany() {
 		try {
 
-			return companyDAOImpl.searchAll();
+			return companyDAO.searchAll();
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -39,7 +39,7 @@ public class CompanyService {
 		boolean success = false;
 		try {
 
-			companyDAOImpl.delete(compToDeleteID);
+			companyDAO.delete(compToDeleteID);
 			success = true;
 
 		} catch (DAOException e) {

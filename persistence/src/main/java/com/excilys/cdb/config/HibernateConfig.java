@@ -1,4 +1,4 @@
-package com.excilys.cdb.persistance.config;
+package com.excilys.cdb.config;
 
 import java.util.Properties;
 
@@ -27,9 +27,6 @@ public class HibernateConfig {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 		factoryBean.setDataSource(getDataSource());
 		factoryBean.setPackagesToScan("com.excilys.cdb.dto");
-//		Properties hibernateProperties = new Properties();
-//		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-//		factoryBean.setHibernateProperties(hibernateProperties);
 		factoryBean.setHibernateProperties(
 				(Properties) new Properties().setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"));
 		return factoryBean;

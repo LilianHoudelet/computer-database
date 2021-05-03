@@ -8,7 +8,9 @@
 		<groupId>com.excilys</groupId>
 		<version>1.0</version>
 	</parent>
-	<artifactId>persistance</artifactId>
+
+	<artifactId>persistence</artifactId>
+	<name>persistence</name>
 
 	<dependencies>
 		<dependency>

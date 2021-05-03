@@ -1,4 +1,4 @@
-package com.excilys.cdb.dto.persistance;
+package com.excilys.cdb.dto.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,41 +15,41 @@ import com.excilys.cdb.model.Computer;
 
 @Entity
 @Table(name = "company")
-public class CompanyDTOPersistance {
+public class CompanyDTOPersistence {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long idCompany;
 	private String name;
 
-	@OneToMany(targetEntity = ComputerDTOPersistance.class, mappedBy = "companyDTOPersistance")
+	@OneToMany(targetEntity = ComputerDTOPersistence.class, mappedBy = "companyDTOPersistence")
 	private List<Computer> computers = new ArrayList<>();
 
-	private CompanyDTOPersistance() {
+	private CompanyDTOPersistence() {
 	}
 
-	private CompanyDTOPersistance(CompanyDTOPersistanceBuilder computerBuilder) {
+	private CompanyDTOPersistence(CompanyDTOPersistenceBuilder computerBuilder) {
 		this.idCompany = computerBuilder.idCompany;
 		this.name = computerBuilder.name;
 
 	}
 
-	public static class CompanyDTOPersistanceBuilder {
+	public static class CompanyDTOPersistenceBuilder {
 
 		Long idCompany;
 		String name;
 
-		public CompanyDTOPersistanceBuilder(Long idCompany) {
+		public CompanyDTOPersistenceBuilder(Long idCompany) {
 			this.idCompany = idCompany;
 		}
 
-		public CompanyDTOPersistanceBuilder name(String name) {
+		public CompanyDTOPersistenceBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public CompanyDTOPersistance build() {
-			CompanyDTOPersistance company = new CompanyDTOPersistance(this);
+		public CompanyDTOPersistence build() {
+			CompanyDTOPersistence company = new CompanyDTOPersistence(this);
 			return company;
 		}
 
@@ -85,7 +85,7 @@ public class CompanyDTOPersistance {
 
 	@Override
 	public String toString() {
-		return "CompanyDTOPersistance [id=" + idCompany + ", name=" + name + "]";
+		return "CompanyDTOPersistence [id=" + idCompany + ", name=" + name + "]";
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class CompanyDTOPersistance {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CompanyDTOPersistance other = (CompanyDTOPersistance) obj;
+		CompanyDTOPersistence other = (CompanyDTOPersistence) obj;
 		if (idCompany == null) {
 			if (other.idCompany != null) {
 				return false;

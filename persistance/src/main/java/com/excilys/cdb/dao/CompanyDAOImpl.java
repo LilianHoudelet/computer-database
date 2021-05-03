@@ -10,7 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.dto.persistance.CompanyDTOPersistance;
+import com.excilys.cdb.dto.persistence.CompanyDTOPersistence;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.mapper.MapperCompany;
@@ -42,10 +42,10 @@ public class CompanyDAOImpl {
 	@Transactional
 	public List<Company> searchAll() {
 		List<Company> companies = new ArrayList<>();
-		List<CompanyDTOPersistance> companiesDTO = new ArrayList<>();
+		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			companiesDTO = session.createQuery(SQL_ALL_COMPANY, CompanyDTOPersistance.class).list();
+			companiesDTO = session.createQuery(SQL_ALL_COMPANY, CompanyDTOPersistence.class).list();
 			companies = mapperCompany.mapFromListDTOPersistanceToListModel(companiesDTO);
 			return companies;
 		} catch (HibernateException e) {
@@ -57,11 +57,11 @@ public class CompanyDAOImpl {
 	@Transactional
 	public List<Company> searchAllPagination(int page) throws DAOException {
 		List<Company> companies = new ArrayList<>();
-		List<CompanyDTOPersistance> companiesDTO = new ArrayList<>();
+		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<CompanyDTOPersistance> query = session.createQuery(SQL_ALL_COMPANY_PAGINATION,
-					CompanyDTOPersistance.class);
+			Query<CompanyDTOPersistence> query = session.createQuery(SQL_ALL_COMPANY_PAGINATION,
+					CompanyDTOPersistence.class);
 			query.setFirstResult(page * OBJECT_NUMBER_PER_PAGE);
 			query.setMaxResults(OBJECT_NUMBER_PER_PAGE);
 			companiesDTO = query.list();

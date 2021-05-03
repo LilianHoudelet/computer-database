@@ -1,4 +1,4 @@
-package com.excilys.cdb.dto.persistance;
+package com.excilys.cdb.dto.persistence;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "computer")
-public class ComputerDTOPersistance {
+public class ComputerDTOPersistence {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -21,62 +21,62 @@ public class ComputerDTOPersistance {
 	private LocalDate discontinued;
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = true)
-	private CompanyDTOPersistance companyDTOPersistance;
+	private CompanyDTOPersistence companyDTOPersistence;
 
-	private ComputerDTOPersistance() {
+	private ComputerDTOPersistence() {
 	}
 
-	public ComputerDTOPersistance(Long id, String name, LocalDate introduced, LocalDate discontinued,
-			CompanyDTOPersistance companyDTOPersistance) {
+	public ComputerDTOPersistence(Long id, String name, LocalDate introduced, LocalDate discontinued,
+			CompanyDTOPersistence companyDTOPersistence) {
 		this();
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.companyDTOPersistance = companyDTOPersistance;
+		this.companyDTOPersistence = companyDTOPersistence;
 	}
 
-	private ComputerDTOPersistance(ComputerDTOPersistanceBuilder computerDTOPersistanceBuilder) {
+	private ComputerDTOPersistence(ComputerDTOPersistenceBuilder computerDTOPersistanceBuilder) {
 		this.id = computerDTOPersistanceBuilder.id;
 		this.name = computerDTOPersistanceBuilder.name;
 		this.introduced = computerDTOPersistanceBuilder.introduced;
 		this.discontinued = computerDTOPersistanceBuilder.discontinued;
-		this.companyDTOPersistance = computerDTOPersistanceBuilder.companyDTOPersistance;
+		this.companyDTOPersistence = computerDTOPersistanceBuilder.companyDTOPersistance;
 	}
 
-	public static class ComputerDTOPersistanceBuilder {
+	public static class ComputerDTOPersistenceBuilder {
 		private Long id;
 		private String name;
 		private LocalDate introduced;
 		private LocalDate discontinued;
-		private CompanyDTOPersistance companyDTOPersistance;
+		private CompanyDTOPersistence companyDTOPersistance;
 
-		public ComputerDTOPersistanceBuilder(Long id) {
+		public ComputerDTOPersistenceBuilder(Long id) {
 			this.id = id;
 		}
 
-		public ComputerDTOPersistanceBuilder name(String name) {
+		public ComputerDTOPersistenceBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public ComputerDTOPersistanceBuilder introduced(LocalDate introduced) {
+		public ComputerDTOPersistenceBuilder introduced(LocalDate introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public ComputerDTOPersistanceBuilder discontinued(LocalDate discontinued) {
+		public ComputerDTOPersistenceBuilder discontinued(LocalDate discontinued) {
 			this.discontinued = discontinued;
 			return this;
 		}
 
-		public ComputerDTOPersistanceBuilder company(CompanyDTOPersistance companyDTOPersistance) {
+		public ComputerDTOPersistenceBuilder company(CompanyDTOPersistence companyDTOPersistance) {
 			this.companyDTOPersistance = companyDTOPersistance;
 			return this;
 		}
 
-		public ComputerDTOPersistance build() {
-			ComputerDTOPersistance computerDTOPersistance = new ComputerDTOPersistance(this);
+		public ComputerDTOPersistence build() {
+			ComputerDTOPersistence computerDTOPersistance = new ComputerDTOPersistence(this);
 			return computerDTOPersistance;
 		}
 
@@ -114,18 +114,18 @@ public class ComputerDTOPersistance {
 		this.discontinued = discontinued;
 	}
 
-	public CompanyDTOPersistance getCompanyDTOPersistance() {
-		return companyDTOPersistance;
+	public CompanyDTOPersistence getCompanyDTOPersistance() {
+		return companyDTOPersistence;
 	}
 
-	public void setCompanyDTOPersistance(CompanyDTOPersistance companyDTOPersistance) {
-		this.companyDTOPersistance = companyDTOPersistance;
+	public void setCompanyDTOPersistance(CompanyDTOPersistence companyDTOPersistance) {
+		this.companyDTOPersistence = companyDTOPersistance;
 	}
 
 	public Long getCompanyId() {
 
-		if (companyDTOPersistance != null && companyDTOPersistance.getIdCompany() != null) {
-			return companyDTOPersistance.getIdCompany();
+		if (companyDTOPersistence != null && companyDTOPersistence.getIdCompany() != null) {
+			return companyDTOPersistence.getIdCompany();
 		}
 		return null;
 	}
@@ -134,7 +134,7 @@ public class ComputerDTOPersistance {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyDTOPersistance == null) ? 0 : companyDTOPersistance.hashCode());
+		result = prime * result + ((companyDTOPersistence == null) ? 0 : companyDTOPersistence.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -153,12 +153,12 @@ public class ComputerDTOPersistance {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		ComputerDTOPersistance other = (ComputerDTOPersistance) obj;
-		if (companyDTOPersistance == null) {
-			if (other.companyDTOPersistance != null) {
+		ComputerDTOPersistence other = (ComputerDTOPersistence) obj;
+		if (companyDTOPersistence == null) {
+			if (other.companyDTOPersistence != null) {
 				return false;
 			}
-		} else if (!companyDTOPersistance.equals(other.companyDTOPersistance)) {
+		} else if (!companyDTOPersistence.equals(other.companyDTOPersistence)) {
 			return false;
 		}
 		if (discontinued == null) {
@@ -195,6 +195,6 @@ public class ComputerDTOPersistance {
 	@Override
 	public String toString() {
 		return "ComputerDTOPersistance [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
-				+ discontinued + ", company=" + companyDTOPersistance + "]";
+				+ discontinued + ", company=" + companyDTOPersistence + "]";
 	}
 }

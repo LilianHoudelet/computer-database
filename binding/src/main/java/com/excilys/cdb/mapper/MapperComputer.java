@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.dto.persistance.ComputerDTOPersistance;
+import com.excilys.cdb.dto.persistence.ComputerDTOPersistence;
 import com.excilys.cdb.dto.rest.ComputerDTORest;
 import com.excilys.cdb.dto.web.ComputerDTOAdd;
 import com.excilys.cdb.dto.web.ComputerDTOEdit;
@@ -84,7 +84,7 @@ public class MapperComputer {
 		return computer;
 	}
 
-	public Computer mapFromDTOPersistanceToModel(ComputerDTOPersistance computerDTOPersistance) {
+	public Computer mapFromDTOPersistanceToModel(ComputerDTOPersistence computerDTOPersistance) {
 		Computer computer = new Computer.ComputerBuilder(computerDTOPersistance.getId())
 				.name(computerDTOPersistance.getName()).discontinued(computerDTOPersistance.getDiscontinued())
 				.introduced(computerDTOPersistance.getIntroduced()).build();
@@ -96,7 +96,7 @@ public class MapperComputer {
 		return computer;
 	}
 
-	public List<Computer> mapFromListDTOPersistanceToListModel(List<ComputerDTOPersistance> listComputersDTO) {
+	public List<Computer> mapFromListDTOPersistanceToListModel(List<ComputerDTOPersistence> listComputersDTO) {
 
 		List<Computer> listComputers = listComputersDTO.stream().map(c -> mapFromDTOPersistanceToModel(c))
 				.collect(Collectors.toList());
@@ -104,8 +104,8 @@ public class MapperComputer {
 		return listComputers;
 	}
 
-	public ComputerDTOPersistance mapFromModelToDTOPersistance(Computer computer) {
-		ComputerDTOPersistance computerDTOPersistance = new ComputerDTOPersistance.ComputerDTOPersistanceBuilder(
+	public ComputerDTOPersistence mapFromModelToDTOPersistance(Computer computer) {
+		ComputerDTOPersistence computerDTOPersistance = new ComputerDTOPersistence.ComputerDTOPersistenceBuilder(
 				computer.getId()).name(computer.getName()).discontinued(computer.getDiscontinued())
 						.introduced(computer.getIntroduced()).build();
 		if (computer.getCompany() != null) {

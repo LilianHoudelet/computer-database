@@ -11,7 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.dto.persistance.ComputerDTOPersistance;
+import com.excilys.cdb.dto.persistence.ComputerDTOPersistence;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.mapper.MapperComputer;
@@ -112,7 +112,7 @@ public class ComputerDAOImpl {
 
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<ComputerDTOPersistance> query = session.createQuery(SQL_SELECT, ComputerDTOPersistance.class);
+			Query<ComputerDTOPersistence> query = session.createQuery(SQL_SELECT, ComputerDTOPersistence.class);
 			query.setParameter("id", id);
 			query.setMaxResults(1);
 			computer = Optional.ofNullable(mapperComputer.mapFromDTOPersistanceToModel(query.getSingleResult()));
@@ -126,10 +126,10 @@ public class ComputerDAOImpl {
 	@Transactional
 	public List<Computer> searchAll() {
 		List<Computer> computers = new ArrayList<>();
-		List<ComputerDTOPersistance> computersDTO = new ArrayList<>();
+		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			computersDTO = session.createQuery(SQL_ALL_COMPUTER, ComputerDTOPersistance.class).list();
+			computersDTO = session.createQuery(SQL_ALL_COMPUTER, ComputerDTOPersistence.class).list();
 			computers = mapperComputer.mapFromListDTOPersistanceToListModel(computersDTO);
 			return computers;
 		} catch (HibernateException e) {
@@ -141,12 +141,12 @@ public class ComputerDAOImpl {
 	@Transactional
 	public List<Computer> searchAllPagination(Page<Computer> page) {
 		List<Computer> computers = new ArrayList<>();
-		List<ComputerDTOPersistance> computersDTO = new ArrayList<>();
+		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<ComputerDTOPersistance> query = session.createQuery(SQL_ALL_COMPUTER_PAGINATION
+			Query<ComputerDTOPersistence> query = session.createQuery(SQL_ALL_COMPUTER_PAGINATION
 					.replace("ORDERATTRIBUTE", page.getOrderAttribute()).replace("ORDERSORT", page.getOrderSort()),
-					ComputerDTOPersistance.class);
+					ComputerDTOPersistence.class);
 			query.setFirstResult(page.getObjetPerPage() * page.getPageInt());
 			query.setMaxResults(page.getObjetPerPage());
 			computersDTO = query.list();
@@ -191,12 +191,12 @@ public class ComputerDAOImpl {
 	@Transactional
 	public List<Computer> searchNamePagination(Page<Computer> page, String name) throws DAOException {
 		List<Computer> computers = new ArrayList<>();
-		List<ComputerDTOPersistance> computersDTO = new ArrayList<>();
+		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<ComputerDTOPersistance> query = session.createQuery(SQL_SEARCH_BY_NAME_COMPA_COMPU
+			Query<ComputerDTOPersistence> query = session.createQuery(SQL_SEARCH_BY_NAME_COMPA_COMPU
 					.replace("ORDERATTRIBUTE", page.getOrderAttribute()).replace("ORDERSORT", page.getOrderSort()),
-					ComputerDTOPersistance.class);
+					ComputerDTOPersistence.class);
 
 			query.setFirstResult(page.getObjetPerPage() * page.getPageInt());
 			query.setMaxResults(page.getObjetPerPage());

@@ -1,4 +1,4 @@
-package com.excilys.cdb.dto.persistance;
+package com.excilys.cdb.dto.persistence;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserDTOPersistance {
+public class UserDTOPersistence {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -17,7 +17,7 @@ public class UserDTOPersistance {
 	private String password;
 	private boolean enabled;
 
-	public UserDTOPersistance(int id, String authority, String username, String password, boolean enabled) {
+	public UserDTOPersistence(int id, String authority, String username, String password, boolean enabled) {
 		super();
 		this.id = id;
 		this.authority = authority;

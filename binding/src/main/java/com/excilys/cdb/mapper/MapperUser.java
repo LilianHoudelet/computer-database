@@ -2,13 +2,13 @@ package com.excilys.cdb.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.dto.persistance.UserDTOPersistance;
+import com.excilys.cdb.dto.persistence.UserDTOPersistence;
 import com.excilys.cdb.model.User;
 
 @Component
 public class MapperUser {
-	public UserDTOPersistance mapFromModelToDTOPersistance(User user) {
-		return new UserDTOPersistance(user.getId(), user.getAuthority(), user.getUsername(), user.getPassword(),
+	public UserDTOPersistence mapFromModelToDTOPersistance(User user) {
+		return new UserDTOPersistence(user.getId(), user.getAuthority(), user.getUsername(), user.getPassword(),
 				user.isEnabled());
 	}
 }

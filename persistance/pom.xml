@@ -8,61 +8,40 @@
 		<groupId>com.excilys</groupId>
 		<version>1.0</version>
 	</parent>
-
-
 	<artifactId>persistance</artifactId>
 
-	<properties>
-
-		<mysql-connector-java.version>8.0.23</mysql-connector-java.version>
-		<HikariCP.version>4.0.3</HikariCP.version>
-		<hsqldb.version>2.6.0</hsqldb.version>
-		
-	</properties>
-	
 	<dependencies>
 		<dependency>
 			<groupId>com.excilys</groupId>
 			<artifactId>core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.excilys</groupId>
 			<artifactId>binding</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.excilys</groupId>
 			<artifactId>logger</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	
-		<dependency>
 
+		<dependency>
 			<groupId>mysql</groupId>
-
 			<artifactId>mysql-connector-java</artifactId>
-
-			<version>${mysql-connector-java.version}</version>
-
 		</dependency>
+
 		<dependency>
-
 			<groupId>com.zaxxer</groupId>
-
 			<artifactId>HikariCP</artifactId>
-
-			<version>${HikariCP.version}</version>
-
 		</dependency>
 
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>${hsqldb.version}</version>
 		</dependency>
-		
-
-
 	</dependencies>
 </project>

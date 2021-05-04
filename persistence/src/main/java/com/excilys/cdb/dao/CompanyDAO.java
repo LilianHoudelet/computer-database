@@ -10,8 +10,8 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.dto.persistence.CompanyDTOPersistence;
-import com.excilys.cdb.dto.persistence.ComputerDTOPersistence;
+import com.excilys.cdb.dto.persistence.CompanyEntity;
+import com.excilys.cdb.dto.persistence.ComputerEntity;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.mapper.MapperCompany;
@@ -25,12 +25,12 @@ public class CompanyDAO {
 	private final SessionFactory sessionFactory;
 
 	private static final int OBJECT_NUMBER_PER_PAGE = 10;
-	private static final String HQL_ALL_COMPANY = "FROM CompanyDTOPersistence ORDER BY id";
-	private static final String HQL_ALL_COMPANY_PAGINATION = "FROM CompanyDTOPersistence ORDER BY id ";
+	private static final String HQL_ALL_COMPANY = "FROM CompanyEntity ORDER BY id";
+	private static final String HQL_ALL_COMPANY_PAGINATION = "FROM CompanyEntity ORDER BY id ";
 //	private static final String SQL_DELETE = "DELETE FROM company WHERE id=:id;";
-	private static final String HQL_DELETE = "DELETE FROM CompanyDTOPersistence WHERE id=:id;";
+	private static final String HQL_DELETE = "DELETE FROM CompanyEntity WHERE id=:id;";
 //	private static final String SQL_DELETE_COMPUTER = "DELETE FROM computer WHERE company_id=:id;";
-	private static final String HQL_DELETE_COMPUTER = "DELETE FROM ComputerDTOPersistence WHERE companyDTOPersistence.id=:id;";
+	private static final String HQL_DELETE_COMPUTER = "DELETE FROM ComputerEntity WHERE companyEntity.id=:id;";
 	
 	public CompanyDAO(SessionFactory sessionFactory, MapperCompany mapperCompany) {
 		this.sessionFactory = sessionFactory;
@@ -39,11 +39,11 @@ public class CompanyDAO {
 	
 	public List<Company> searchAll() {
 		List<Company> companies = new ArrayList<>();
-		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
+		List<CompanyEntity> companiesDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
 
-			companiesDTO = session.createQuery(HQL_ALL_COMPANY, CompanyDTOPersistence.class).list();
+			companiesDTO = session.createQuery(HQL_ALL_COMPANY, CompanyEntity.class).list();
 
 			companies = mapperCompany.mapFromListDTOPersistenceToListModel(companiesDTO);
 			return companies;
@@ -55,12 +55,12 @@ public class CompanyDAO {
 	
 	public List<Company> searchAllPagination(int page) throws DAOException {
 		List<Company> companies = new ArrayList<>();
-		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
+		List<CompanyEntity> companiesDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
 
-			Query<CompanyDTOPersistence> query = session.createQuery(HQL_ALL_COMPANY_PAGINATION,
-					CompanyDTOPersistence.class);
+			Query<CompanyEntity> query = session.createQuery(HQL_ALL_COMPANY_PAGINATION,
+					CompanyEntity.class);
 
 			query.setFirstResult(page * OBJECT_NUMBER_PER_PAGE);
 			query.setMaxResults(OBJECT_NUMBER_PER_PAGE);

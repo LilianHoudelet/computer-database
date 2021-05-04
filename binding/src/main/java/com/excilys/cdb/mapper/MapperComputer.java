@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.dto.persistence.ComputerDTOPersistence;
+import com.excilys.cdb.dto.persistence.ComputerEntity;
 import com.excilys.cdb.dto.rest.ComputerDTORest;
 import com.excilys.cdb.dto.web.ComputerDTOAdd;
 import com.excilys.cdb.dto.web.ComputerDTOEdit;
@@ -84,19 +84,19 @@ public class MapperComputer {
 		return computer;
 	}
 
-	public Computer mapFromDTOPersistenceToModel(ComputerDTOPersistence computerDTOPersistence) {
+	public Computer mapFromDTOPersistenceToModel(ComputerEntity computerDTOPersistence) {
 		Computer computer = new Computer.ComputerBuilder(computerDTOPersistence.getId())
 				.name(computerDTOPersistence.getName()).discontinued(computerDTOPersistence.getDiscontinued())
 				.introduced(computerDTOPersistence.getIntroduced()).build();
-		if (computerDTOPersistence.getCompanyDTOPersistence() != null) {
+		if (computerDTOPersistence.getCompanyEntity() != null) {
 			computer.setCompany(
-					mapperCompany.mapFromDTOPersistenceToModel(computerDTOPersistence.getCompanyDTOPersistence()));
+					mapperCompany.mapFromDTOPersistenceToModel(computerDTOPersistence.getCompanyEntity()));
 		}
 
 		return computer;
 	}
 
-	public List<Computer> mapFromListDTOPersistenceToListModel(List<ComputerDTOPersistence> listComputersDTO) {
+	public List<Computer> mapFromListDTOPersistenceToListModel(List<ComputerEntity> listComputersDTO) {
 
 		List<Computer> listComputers = listComputersDTO.stream().map(c -> mapFromDTOPersistenceToModel(c))
 				.collect(Collectors.toList());
@@ -104,13 +104,13 @@ public class MapperComputer {
 		return listComputers;
 	}
 
-	public ComputerDTOPersistence mapFromModelToDTOPersistence(Computer computer) {
-		ComputerDTOPersistence computerDTOPersistance = new ComputerDTOPersistence.ComputerDTOPersistanceBuilder(
+	public ComputerEntity mapFromModelToDTOPersistence(Computer computer) {
+		ComputerEntity computerDTOPersistance = new ComputerEntity.ComputerEntityBuilder(
 				computer.getId()).name(computer.getName()).discontinued(computer.getDiscontinued())
 						.introduced(computer.getIntroduced()).build();
 		if (computer.getCompany() != null) {
 			computerDTOPersistance
-					.setCompanyDTOPersistence(mapperCompany.mapFromModelToDTOPersistence(computer.getCompany()));
+					.setCompanyEntity(mapperCompany.mapFromModelToDTOPersistence(computer.getCompany()));
 		}
 
 		return computerDTOPersistance;

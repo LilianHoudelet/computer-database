@@ -11,7 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.dto.persistence.ComputerDTOPersistence;
+import com.excilys.cdb.dto.persistence.ComputerEntity;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.mapper.MapperComputer;
@@ -25,15 +25,15 @@ public class ComputerDAO {
 	private final SessionFactory sessionFactory;
 	private final MapperComputer mapperComputer;
 
-	private static final String HQL_UPDATE = "UPDATE ComputerDTOPersistence SET name=:name, introduced=:introduced, discontinued=:discontinued, companyDTOPersistence.id=:companyId WHERE id=:id";
-	private static final String HQL_DELETE = "DELETE FROM ComputerDTOPersistence WHERE id=:id";
-	private static final String HQL_SELECT = "FROM ComputerDTOPersistence computer left join fetch computer.companyDTOPersistence as company WHERE computer.id = :id";
-	private static final String HQL_ALL_COMPUTER = "FROM ComputerDTOPersistence ORDER BY id";
-	private static final String HQL_ALL_COMPUTER_PAGINATION = "FROM ComputerDTOPersistence as computer ORDER BY ORDERATTRIBUTE ORDERSORT  ";
-	private static final String HQL_COUNT_ALL_COMPUTER = "SELECT COUNT(id) FROM ComputerDTOPersistence ";
+	private static final String HQL_UPDATE = "UPDATE ComputerEntity SET name=:name, introduced=:introduced, discontinued=:discontinued, companyEntity.id=:companyId WHERE id=:id";
+	private static final String HQL_DELETE = "DELETE FROM ComputerEntity WHERE id=:id";
+	private static final String HQL_SELECT = "FROM ComputerEntity computer left join fetch computer.companyEntity as company WHERE computer.id = :id";
+	private static final String HQL_ALL_COMPUTER = "FROM ComputerEntity ORDER BY id";
+	private static final String HQL_ALL_COMPUTER_PAGINATION = "FROM ComputerEntity as computer ORDER BY ORDERATTRIBUTE ORDERSORT  ";
+	private static final String HQL_COUNT_ALL_COMPUTER = "SELECT COUNT(id) FROM ComputerEntity ";
 //	private static final String SQL_SEARCH_BY_NAME_COMPA_COMPU = "SELECT New com.excilys.cdb.dto.ComputerDTOPersistence(computer.id, computer.name, computer.introduced, computer.discontinued, computer.companyDTOPersistence)  FROM ComputerDTOPersistence computer left join computer.companyDTOPersistence as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
-	private static final String HQL_SEARCH_BY_NAME_COMPA_COMPU = "FROM ComputerDTOPersistence computer left join fetch computer.companyDTOPersistence as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
-	private static final String HQL_SEARCH_BY_NAME_COUNT = "SELECT COUNT(computer.id) FROM ComputerDTOPersistence computer left join computer.companyDTOPersistence  company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ";
+	private static final String HQL_SEARCH_BY_NAME_COMPA_COMPU = "FROM ComputerEntity computer left join fetch computer.companyEntity as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
+	private static final String HQL_SEARCH_BY_NAME_COUNT = "SELECT COUNT(computer.id) FROM ComputerEntity computer left join computer.companyEntity  company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ";
 
 	public ComputerDAO(SessionFactory sessionFactory, MapperComputer mapperComputer) {
 		this.mapperComputer = mapperComputer;
@@ -104,7 +104,7 @@ public class ComputerDAO {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 
-			Query<ComputerDTOPersistence> query = session.createQuery(HQL_SELECT, ComputerDTOPersistence.class);
+			Query<ComputerEntity> query = session.createQuery(HQL_SELECT, ComputerEntity.class);
 
 			query.setParameter("id", id);
 			query.setMaxResults(1);
@@ -117,10 +117,10 @@ public class ComputerDAO {
 		
 	public List<Computer> searchAll() {
 		List<Computer> computers = new ArrayList<>();
-		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
+		List<ComputerEntity> computersDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			computersDTO = session.createQuery(HQL_ALL_COMPUTER, ComputerDTOPersistence.class).list();
+			computersDTO = session.createQuery(HQL_ALL_COMPUTER, ComputerEntity.class).list();
 			computers = mapperComputer.mapFromListDTOPersistenceToListModel(computersDTO);
 			return computers;
 		} catch (HibernateException e) {
@@ -131,12 +131,12 @@ public class ComputerDAO {
 	
 	public List<Computer> searchAllPagination(Page<Computer> page) {
 		List<Computer> computers = new ArrayList<>();
-		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
+		List<ComputerEntity> computersDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<ComputerDTOPersistence> query = session.createQuery(HQL_ALL_COMPUTER_PAGINATION
+			Query<ComputerEntity> query = session.createQuery(HQL_ALL_COMPUTER_PAGINATION
 					.replace("ORDERATTRIBUTE", page.getOrderAttribute()).replace("ORDERSORT", page.getOrderSort()),
-					ComputerDTOPersistence.class);
+					ComputerEntity.class);
 			query.setFirstResult(page.getObjetPerPage() * page.getPageInt());
 			query.setMaxResults(page.getObjetPerPage());
 			computersDTO = query.list();
@@ -178,13 +178,13 @@ public class ComputerDAO {
 	
 	public List<Computer> searchNamePagination(Page<Computer> page, String name) throws DAOException {
 		List<Computer> computers = new ArrayList<>();
-		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
+		List<ComputerEntity> computersDTO = new ArrayList<>();
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Query<ComputerDTOPersistence> query = session.createQuery(HQL_SEARCH_BY_NAME_COMPA_COMPU
+			Query<ComputerEntity> query = session.createQuery(HQL_SEARCH_BY_NAME_COMPA_COMPU
 
 					.replace("ORDERATTRIBUTE", page.getOrderAttribute()).replace("ORDERSORT", page.getOrderSort()),
-					ComputerDTOPersistence.class);
+					ComputerEntity.class);
 			query.setFirstResult(page.getObjetPerPage() * page.getPageInt());
 			query.setMaxResults(page.getObjetPerPage());
 			query.setParameter("nameComputer", "%" + name.toLowerCase() + "%");

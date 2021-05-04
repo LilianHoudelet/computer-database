@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserDTOPersistence {
+public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -17,7 +17,7 @@ public class UserDTOPersistence {
 	private String password;
 	private boolean enabled;
 
-	public UserDTOPersistence(int id, String authority, String username, String password, boolean enabled) {
+	public UserEntity(int id, String authority, String username, String password, boolean enabled) {
 		super();
 		this.id = id;
 		this.authority = authority;

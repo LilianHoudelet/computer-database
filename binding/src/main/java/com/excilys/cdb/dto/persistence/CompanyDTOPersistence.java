@@ -22,28 +22,28 @@ public class CompanyDTOPersistence {
 	private Long idCompany;
 	private String name;
 
-	@OneToMany(targetEntity = ComputerDTOPersistence.class, mappedBy = "companyDTOPersistence")
+	@OneToMany(targetEntity = ComputerDTOPersistence.class, mappedBy = "companyDTOPersistance")
 	private List<Computer> computers = new ArrayList<>();
 
 	private CompanyDTOPersistence() {
 	}
 
-	private CompanyDTOPersistence(CompanyDTOPersistenceBuilder computerBuilder) {
+	private CompanyDTOPersistence(CompanyDTOPersistanceBuilder computerBuilder) {
 		this.idCompany = computerBuilder.idCompany;
 		this.name = computerBuilder.name;
 
 	}
 
-	public static class CompanyDTOPersistenceBuilder {
+	public static class CompanyDTOPersistanceBuilder {
 
 		Long idCompany;
 		String name;
 
-		public CompanyDTOPersistenceBuilder(Long idCompany) {
+		public CompanyDTOPersistanceBuilder(Long idCompany) {
 			this.idCompany = idCompany;
 		}
 
-		public CompanyDTOPersistenceBuilder name(String name) {
+		public CompanyDTOPersistanceBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
@@ -85,7 +85,7 @@ public class CompanyDTOPersistence {
 
 	@Override
 	public String toString() {
-		return "CompanyDTOPersistence [id=" + idCompany + ", name=" + name + "]";
+		return "CompanyDTOPersistance [id=" + idCompany + ", name=" + name + "]";
 	}
 
 	@Override

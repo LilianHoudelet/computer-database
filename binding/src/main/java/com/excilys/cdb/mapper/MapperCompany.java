@@ -38,7 +38,7 @@ public class MapperCompany {
 		return listCompaniesDTO;
 	}
 
-	public Company mapFromDTOPersistanceToModel(CompanyDTOPersistence companyDTOPersistance) {
+	public Company mapFromDTOPersistenceToModel(CompanyDTOPersistence companyDTOPersistance) {
 
 		Company company = new Company.CompanyBuilder(companyDTOPersistance.getIdCompany())
 				.name(companyDTOPersistance.getName()).build();
@@ -46,20 +46,20 @@ public class MapperCompany {
 		return company;
 	}
 
-	public List<Company> mapFromListDTOPersistanceToListModel(List<CompanyDTOPersistence> listCompanies) {
+	public List<Company> mapFromListDTOPersistenceToListModel(List<CompanyDTOPersistence> listCompanies) {
 
-		List<Company> listCompaniesDTO = listCompanies.stream().map(c -> mapFromDTOPersistanceToModel(c))
+		List<Company> listCompaniesDTO = listCompanies.stream().map(c -> mapFromDTOPersistenceToModel(c))
 				.collect(Collectors.toList());
 
 		return listCompaniesDTO;
 	}
 
-	public CompanyDTOPersistence mapFromModelToDTOPersistance(Company company) {
+	public CompanyDTOPersistence mapFromModelToDTOPersistence(Company company) {
 
 		if (company == null || (company.getId() == null && company.getName() == null)) {
 			return null;
 		} else {
-			return new CompanyDTOPersistence.CompanyDTOPersistenceBuilder(company.getId()).name(company.getName())
+			return new CompanyDTOPersistence.CompanyDTOPersistanceBuilder(company.getId()).name(company.getName())
 					.build();
 		}
 

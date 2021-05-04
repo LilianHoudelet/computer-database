@@ -14,17 +14,17 @@ import com.excilys.cdb.model.Company;
 @Service
 public class CompanyService {
 
-	CompanyDAO companyDAO;
+	CompanyDAO companyDAOImpl;
 
-	public CompanyService(CompanyDAO companyDAO) {
+	public CompanyService(CompanyDAO companyDAOImpl) {
 
-		this.companyDAO = companyDAO;
+		this.companyDAOImpl = companyDAOImpl;
 	}
 
 	public List<Company> searchAllCompany() {
 		try {
 
-			return companyDAO.searchAll();
+			return companyDAOImpl.searchAll();
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -39,7 +39,7 @@ public class CompanyService {
 		boolean success = false;
 		try {
 
-			companyDAO.delete(compToDeleteID);
+			companyDAOImpl.delete(compToDeleteID);
 			success = true;
 
 		} catch (DAOException e) {

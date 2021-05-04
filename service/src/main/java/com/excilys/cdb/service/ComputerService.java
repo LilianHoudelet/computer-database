@@ -15,16 +15,16 @@ import com.excilys.cdb.model.Computer;
 @Service
 public class ComputerService {
 
-	ComputerDAO computerDAO;
+	ComputerDAO computerDAOImpl;
 
-	public ComputerService(ComputerDAO computerDAO) {
+	public ComputerService(ComputerDAO computerDAOImpl) {
 
-		this.computerDAO = computerDAO;
+		this.computerDAOImpl = computerDAOImpl;
 	}
 
 	public List<Computer> searchAllComputer() {
 		try {
-			return computerDAO.searchAll();
+			return computerDAOImpl.searchAll();
 		} catch (DAOConfigurationException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOException e) {
@@ -36,7 +36,7 @@ public class ComputerService {
 	public Optional<Computer> searchByIdComputer(Long idToSearch) {
 		try {
 
-			Optional<Computer> compSearched = computerDAO.search(idToSearch);
+			Optional<Computer> compSearched = computerDAOImpl.search(idToSearch);
 			return compSearched;
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -50,7 +50,7 @@ public class ComputerService {
 		boolean success = false;
 		try {
 
-			computerDAO.create(compToCreate);
+			computerDAOImpl.create(compToCreate);
 			success = true;
 
 		} catch (DAOException e) {
@@ -66,7 +66,7 @@ public class ComputerService {
 		try {
 //
 //			CliMenu.showUpdateOneComputer();
-			computerDAO.update(compToUpdate);
+			computerDAOImpl.update(compToUpdate);
 			success = true;
 
 		} catch (DAOException e) {
@@ -81,7 +81,7 @@ public class ComputerService {
 		boolean success = false;
 		try {
 
-			computerDAO.delete(compToDeleteID);
+			computerDAOImpl.delete(compToDeleteID);
 			success = true;
 
 		} catch (DAOException e) {
@@ -97,7 +97,7 @@ public class ComputerService {
 		int nbComputer = 0;
 		try {
 
-			nbComputer = computerDAO.searchAllCount();
+			nbComputer = computerDAOImpl.searchAllCount();
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -111,7 +111,7 @@ public class ComputerService {
 		int nbComputer = 0;
 		try {
 
-			nbComputer = computerDAO.searchNameCount(name);
+			nbComputer = computerDAOImpl.searchNameCount(name);
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);

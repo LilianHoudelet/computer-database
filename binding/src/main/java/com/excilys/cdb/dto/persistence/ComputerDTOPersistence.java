@@ -21,56 +21,56 @@ public class ComputerDTOPersistence {
 	private LocalDate discontinued;
 	@ManyToOne
 	@JoinColumn(name = "company_id", nullable = true)
-	private CompanyDTOPersistence companyDTOPersistence;
+	private CompanyDTOPersistence companyDTOPersistance;
 
 	private ComputerDTOPersistence() {
 	}
 
 	public ComputerDTOPersistence(Long id, String name, LocalDate introduced, LocalDate discontinued,
-			CompanyDTOPersistence companyDTOPersistence) {
+			CompanyDTOPersistence companyDTOPersistance) {
 		this();
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
-		this.companyDTOPersistence = companyDTOPersistence;
+		this.companyDTOPersistance = companyDTOPersistance;
 	}
 
-	private ComputerDTOPersistence(ComputerDTOPersistenceBuilder computerDTOPersistanceBuilder) {
+	private ComputerDTOPersistence(ComputerDTOPersistanceBuilder computerDTOPersistanceBuilder) {
 		this.id = computerDTOPersistanceBuilder.id;
 		this.name = computerDTOPersistanceBuilder.name;
 		this.introduced = computerDTOPersistanceBuilder.introduced;
 		this.discontinued = computerDTOPersistanceBuilder.discontinued;
-		this.companyDTOPersistence = computerDTOPersistanceBuilder.companyDTOPersistance;
+		this.companyDTOPersistance = computerDTOPersistanceBuilder.companyDTOPersistance;
 	}
 
-	public static class ComputerDTOPersistenceBuilder {
+	public static class ComputerDTOPersistanceBuilder {
 		private Long id;
 		private String name;
 		private LocalDate introduced;
 		private LocalDate discontinued;
 		private CompanyDTOPersistence companyDTOPersistance;
 
-		public ComputerDTOPersistenceBuilder(Long id) {
+		public ComputerDTOPersistanceBuilder(Long id) {
 			this.id = id;
 		}
 
-		public ComputerDTOPersistenceBuilder name(String name) {
+		public ComputerDTOPersistanceBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public ComputerDTOPersistenceBuilder introduced(LocalDate introduced) {
+		public ComputerDTOPersistanceBuilder introduced(LocalDate introduced) {
 			this.introduced = introduced;
 			return this;
 		}
 
-		public ComputerDTOPersistenceBuilder discontinued(LocalDate discontinued) {
+		public ComputerDTOPersistanceBuilder discontinued(LocalDate discontinued) {
 			this.discontinued = discontinued;
 			return this;
 		}
 
-		public ComputerDTOPersistenceBuilder company(CompanyDTOPersistence companyDTOPersistance) {
+		public ComputerDTOPersistanceBuilder company(CompanyDTOPersistence companyDTOPersistance) {
 			this.companyDTOPersistance = companyDTOPersistance;
 			return this;
 		}
@@ -115,17 +115,17 @@ public class ComputerDTOPersistence {
 	}
 
 	public CompanyDTOPersistence getCompanyDTOPersistance() {
-		return companyDTOPersistence;
+		return companyDTOPersistance;
 	}
 
 	public void setCompanyDTOPersistance(CompanyDTOPersistence companyDTOPersistance) {
-		this.companyDTOPersistence = companyDTOPersistance;
+		this.companyDTOPersistance = companyDTOPersistance;
 	}
 
 	public Long getCompanyId() {
 
-		if (companyDTOPersistence != null && companyDTOPersistence.getIdCompany() != null) {
-			return companyDTOPersistence.getIdCompany();
+		if (companyDTOPersistance != null && companyDTOPersistance.getIdCompany() != null) {
+			return companyDTOPersistance.getIdCompany();
 		}
 		return null;
 	}
@@ -134,7 +134,7 @@ public class ComputerDTOPersistence {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyDTOPersistence == null) ? 0 : companyDTOPersistence.hashCode());
+		result = prime * result + ((companyDTOPersistance == null) ? 0 : companyDTOPersistance.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -154,11 +154,11 @@ public class ComputerDTOPersistence {
 			return false;
 		}
 		ComputerDTOPersistence other = (ComputerDTOPersistence) obj;
-		if (companyDTOPersistence == null) {
-			if (other.companyDTOPersistence != null) {
+		if (companyDTOPersistance == null) {
+			if (other.companyDTOPersistance != null) {
 				return false;
 			}
-		} else if (!companyDTOPersistence.equals(other.companyDTOPersistence)) {
+		} else if (!companyDTOPersistance.equals(other.companyDTOPersistance)) {
 			return false;
 		}
 		if (discontinued == null) {
@@ -195,6 +195,6 @@ public class ComputerDTOPersistence {
 	@Override
 	public String toString() {
 		return "ComputerDTOPersistance [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
-				+ discontinued + ", company=" + companyDTOPersistence + "]";
+				+ discontinued + ", company=" + companyDTOPersistance + "]";
 	}
 }

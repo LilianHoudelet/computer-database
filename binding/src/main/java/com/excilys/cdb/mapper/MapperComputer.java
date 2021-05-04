@@ -84,33 +84,33 @@ public class MapperComputer {
 		return computer;
 	}
 
-	public Computer mapFromDTOPersistanceToModel(ComputerDTOPersistence computerDTOPersistance) {
+	public Computer mapFromDTOPersistenceToModel(ComputerDTOPersistence computerDTOPersistance) {
 		Computer computer = new Computer.ComputerBuilder(computerDTOPersistance.getId())
 				.name(computerDTOPersistance.getName()).discontinued(computerDTOPersistance.getDiscontinued())
 				.introduced(computerDTOPersistance.getIntroduced()).build();
 		if (computerDTOPersistance.getCompanyDTOPersistance() != null) {
 			computer.setCompany(
-					mapperCompany.mapFromDTOPersistanceToModel(computerDTOPersistance.getCompanyDTOPersistance()));
+					mapperCompany.mapFromDTOPersistenceToModel(computerDTOPersistance.getCompanyDTOPersistance()));
 		}
 
 		return computer;
 	}
 
-	public List<Computer> mapFromListDTOPersistanceToListModel(List<ComputerDTOPersistence> listComputersDTO) {
+	public List<Computer> mapFromListDTOPersistenceToListModel(List<ComputerDTOPersistence> listComputersDTO) {
 
-		List<Computer> listComputers = listComputersDTO.stream().map(c -> mapFromDTOPersistanceToModel(c))
+		List<Computer> listComputers = listComputersDTO.stream().map(c -> mapFromDTOPersistenceToModel(c))
 				.collect(Collectors.toList());
 
 		return listComputers;
 	}
 
-	public ComputerDTOPersistence mapFromModelToDTOPersistance(Computer computer) {
-		ComputerDTOPersistence computerDTOPersistance = new ComputerDTOPersistence.ComputerDTOPersistenceBuilder(
+	public ComputerDTOPersistence mapFromModelToDTOPersistence(Computer computer) {
+		ComputerDTOPersistence computerDTOPersistance = new ComputerDTOPersistence.ComputerDTOPersistanceBuilder(
 				computer.getId()).name(computer.getName()).discontinued(computer.getDiscontinued())
 						.introduced(computer.getIntroduced()).build();
 		if (computer.getCompany() != null) {
 			computerDTOPersistance
-					.setCompanyDTOPersistance(mapperCompany.mapFromModelToDTOPersistance(computer.getCompany()));
+					.setCompanyDTOPersistance(mapperCompany.mapFromModelToDTOPersistence(computer.getCompany()));
 		}
 
 		return computerDTOPersistance;

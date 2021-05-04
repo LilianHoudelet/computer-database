@@ -19,19 +19,27 @@ import com.excilys.cdb.model.Page;
 @Service
 public class PageService {
 
-	private final ComputerDAO computerDAO;
-	private final CompanyDAO companyDAO;
+	ComputerDAO computerDAOImpl;
 
-	public PageService(ComputerDAO computerDAO, CompanyDAO companyDAO) {
-		this.computerDAO = computerDAO;
-		this.companyDAO = companyDAO;
+	CompanyDAO companyDAOImpl;
+
+	public PageService(ComputerDAO computerDAOImpl, CompanyDAO companyDAOImpl) {
+
+		this.computerDAOImpl = computerDAOImpl;
+		this.companyDAOImpl = companyDAOImpl;
 	}
 
+	/**
+	 * @param page the page searched
+	 * @return List<Computer> a list of computer
+	 */
 	@Transactional
 	public List<Computer> searchAllComputerPagination(Page<Computer> page) {
 		try {
-			return computerDAO.searchAllPagination(page);
+
+			return computerDAOImpl.searchAllPagination(page);
 		} catch (
+
 		DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {
@@ -43,7 +51,7 @@ public class PageService {
 	@Transactional
 	public List<Computer> searchNamePagination(Page<Computer> page, String name) {
 		try {
-			List<Computer> computers = computerDAO.searchNamePagination(page, name);
+			List<Computer> computers = computerDAOImpl.searchNamePagination(page, name);
 			if (computers.size() == 0) {
 				throw new InputException(name);
 			}
@@ -59,8 +67,10 @@ public class PageService {
 	@Transactional
 	public List<Company> searchAllCompanyPage(int pageInt) {
 		try {
-			return companyDAO.searchAllPagination(pageInt);
+
+			return companyDAOImpl.searchAllPagination(pageInt);
 		} catch (
+
 		DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {

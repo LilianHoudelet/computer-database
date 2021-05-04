@@ -22,7 +22,7 @@ public class CompanyDTOPersistence {
 	private Long idCompany;
 	private String name;
 
-	@OneToMany(targetEntity = ComputerDTOPersistence.class, mappedBy = "companyDTOPersistance")
+	@OneToMany(targetEntity = ComputerDTOPersistence.class, mappedBy = "companyDTOPersistence")
 	private List<Computer> computers = new ArrayList<>();
 
 	private CompanyDTOPersistence() {
@@ -85,7 +85,7 @@ public class CompanyDTOPersistence {
 
 	@Override
 	public String toString() {
-		return "CompanyDTOPersistance [id=" + idCompany + ", name=" + name + "]";
+		return "CompanyDTOPersistence [id=" + idCompany + ", name=" + name + "]";
 	}
 
 	@Override

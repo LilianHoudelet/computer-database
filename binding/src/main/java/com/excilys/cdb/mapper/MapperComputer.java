@@ -84,13 +84,13 @@ public class MapperComputer {
 		return computer;
 	}
 
-	public Computer mapFromDTOPersistenceToModel(ComputerDTOPersistence computerDTOPersistance) {
-		Computer computer = new Computer.ComputerBuilder(computerDTOPersistance.getId())
-				.name(computerDTOPersistance.getName()).discontinued(computerDTOPersistance.getDiscontinued())
-				.introduced(computerDTOPersistance.getIntroduced()).build();
-		if (computerDTOPersistance.getCompanyDTOPersistance() != null) {
+	public Computer mapFromDTOPersistenceToModel(ComputerDTOPersistence computerDTOPersistence) {
+		Computer computer = new Computer.ComputerBuilder(computerDTOPersistence.getId())
+				.name(computerDTOPersistence.getName()).discontinued(computerDTOPersistence.getDiscontinued())
+				.introduced(computerDTOPersistence.getIntroduced()).build();
+		if (computerDTOPersistence.getCompanyDTOPersistence() != null) {
 			computer.setCompany(
-					mapperCompany.mapFromDTOPersistenceToModel(computerDTOPersistance.getCompanyDTOPersistance()));
+					mapperCompany.mapFromDTOPersistenceToModel(computerDTOPersistence.getCompanyDTOPersistence()));
 		}
 
 		return computer;
@@ -110,7 +110,7 @@ public class MapperComputer {
 						.introduced(computer.getIntroduced()).build();
 		if (computer.getCompany() != null) {
 			computerDTOPersistance
-					.setCompanyDTOPersistance(mapperCompany.mapFromModelToDTOPersistence(computer.getCompany()));
+					.setCompanyDTOPersistence(mapperCompany.mapFromModelToDTOPersistence(computer.getCompany()));
 		}
 
 		return computerDTOPersistance;

@@ -24,7 +24,7 @@ import com.excilys.cdb.service.PageService;
 
 @RestController
 @RequestMapping("/api/computer")
-public class ComputerAPI {
+public class ComputerAPI { // TODO renommer les variables pour les pages
 	
 	private ComputerService computerService;
 	private PageService pageService;

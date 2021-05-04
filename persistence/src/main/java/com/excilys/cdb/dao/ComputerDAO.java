@@ -105,7 +105,7 @@ public class ComputerDAO {
 		return computer;
 	}
 		
-	public List<Computer> searchAll() {
+	public List<Computer> getAll() {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
 		try {
@@ -119,7 +119,32 @@ public class ComputerDAO {
 		return computers;
 	}
 	
-	public List<Computer> searchAllPagination(Page<Computer> page) {
+	public int count() {
+		int nbComputer = 0;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			nbComputer = session.createQuery(HQL_COUNT_ALL_COMPUTER, Long.class).uniqueResult().intValue();
+		} catch (HibernateException e) {
+			LoggerCdb.logError(this.getClass(), e);
+		}
+		return nbComputer;
+	}
+
+	public int count(String name) {
+		int nbComputer = 0;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Query<Long> query = session.createQuery(HQL_SEARCH_BY_NAME_COUNT, Long.class);
+			query.setParameter("nameComputer", "%" + name + "%");
+			query.setParameter("nameCompany", "%" + name + "%");
+			nbComputer = query.uniqueResult().intValue();
+		} catch (HibernateException e) {
+			LoggerCdb.logError(this.getClass(), e);
+		}
+		return nbComputer;
+	}
+	
+	public List<Computer> getPage(Page<Computer> page) {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
 		try {
@@ -139,33 +164,8 @@ public class ComputerDAO {
 		}
 		return computers;
 	}
-
-	public int searchAllCount() {
-		int nbComputer = 0;
-		try {
-			Session session = sessionFactory.getCurrentSession();
-			nbComputer = session.createQuery(HQL_COUNT_ALL_COMPUTER, Long.class).uniqueResult().intValue();
-		} catch (HibernateException e) {
-			LoggerCdb.logError(this.getClass(), e);
-		}
-		return nbComputer;
-	}
-
-	public int searchNameCount(String name) {
-		int nbComputer = 0;
-		try {
-			Session session = sessionFactory.getCurrentSession();
-			Query<Long> query = session.createQuery(HQL_SEARCH_BY_NAME_COUNT, Long.class);
-			query.setParameter("nameComputer", "%" + name + "%");
-			query.setParameter("nameCompany", "%" + name + "%");
-			nbComputer = query.uniqueResult().intValue();
-		} catch (HibernateException e) {
-			LoggerCdb.logError(this.getClass(), e);
-		}
-		return nbComputer;
-	}
 	
-	public List<Computer> searchNamePagination(Page<Computer> page, String name) throws DAOException {
+	public List<Computer> getPage(Page<Computer> page, String name) throws DAOException {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
 		try {

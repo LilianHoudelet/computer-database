@@ -21,14 +21,14 @@ public class TestDAOCompany extends DataSourceDBUnitTest {
 		Connection conn = getDataSource().getConnection();
 
 		conn.createStatement().executeUpdate("INSERT INTO COMPANY (id,name) VALUES ( 42,'Research In Motion')");
-		List<Company> companies = companyDAOImpl.searchAll();
+		List<Company> companies = companyDAOImpl.getAll();
 		assertEquals(13, companies.size());
 	}
 
 	@Test
 	public void testSearchAllCompanyDAO() throws Exception {
 
-		List<Company> companies = companyDAOImpl.searchAll();
+		List<Company> companies = companyDAOImpl.getAll();
 		assertEquals(12, companies.size());
 
 	}

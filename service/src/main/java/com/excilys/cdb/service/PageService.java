@@ -29,7 +29,7 @@ public class PageService {
 	public List<Computer> searchAllComputerPagination(Page<Computer> page) {
 		try {
 
-			return computerDAO.searchAllPagination(page);
+			return computerDAO.getPage(page);
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {
@@ -40,7 +40,7 @@ public class PageService {
 
 	public List<Computer> searchNamePagination(Page<Computer> page, String name) {
 		try {
-			List<Computer> computers = computerDAO.searchNamePagination(page, name);
+			List<Computer> computers = computerDAO.getPage(page, name);
 			if (computers.size() == 0) {
 				throw new InputException(name);
 			}
@@ -55,7 +55,7 @@ public class PageService {
 
 	public List<Company> searchAllCompanyPage(int pageInt) {
 		try {
-			return companyDAO.searchAllPagination(pageInt);
+			return companyDAO.getAllPage(pageInt);
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {

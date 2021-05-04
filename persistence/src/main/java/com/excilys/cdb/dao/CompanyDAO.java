@@ -35,7 +35,7 @@ public class CompanyDAO {
 		this.mapperCompany = mapperCompany;
 	}
 
-	public List<Company> searchAll() {
+	public List<Company> getAll() {
 		List<Company> companies = new ArrayList<>();
 		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
 		try {
@@ -51,7 +51,7 @@ public class CompanyDAO {
 		return companies;
 	}
 
-	public List<Company> searchAllPagination(int page) throws DAOException {
+	public List<Company> getAllPage(int page) throws DAOException {
 		List<Company> companies = new ArrayList<>();
 		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
 		try {

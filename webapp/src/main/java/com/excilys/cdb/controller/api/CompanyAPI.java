@@ -56,11 +56,11 @@ public class CompanyAPI {
 	public ResponseEntity<?> getComputerPage(@PathVariable(required = false) Integer numPage) {
 		Page<Company> page = new Page<Company>();
 
-		setPageInt(page, numPage);
+		setPageInt(page, numPage-1);
 
 		List<Company> listCompany = null;
 		try {
-			listCompany = this.pageService.searchAllCompanyPage(numPage);
+			listCompany = this.pageService.searchAllCompanyPage(numPage-1);
 			if (listCompany.size() == 0) {
 				throw new InputException("No companie found. Please, verify the page number.");
 			}

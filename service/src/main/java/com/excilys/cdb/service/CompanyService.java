@@ -23,7 +23,7 @@ public class CompanyService {
 
 	public List<Company> searchAllCompany() {
 		try {
-			return companyDAO.searchAll();
+			return companyDAO.getAll();
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {

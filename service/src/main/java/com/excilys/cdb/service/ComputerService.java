@@ -24,7 +24,7 @@ public class ComputerService {
 
 	public List<Computer> searchAllComputer() {
 		try {
-			return computerDAO.searchAll();
+			return computerDAO.getAll();
 		} catch (DAOConfigurationException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOException e) {
@@ -93,7 +93,7 @@ public class ComputerService {
 	public int countComputer() {
 		int nbComputer = 0;
 		try {
-			nbComputer = computerDAO.searchAllCount();
+			nbComputer = computerDAO.count();
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {
@@ -105,7 +105,7 @@ public class ComputerService {
 	public int searchNameCount(String name) {
 		int nbComputer = 0;
 		try {
-			nbComputer = computerDAO.searchNameCount(name);
+			nbComputer = computerDAO.count(name);
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {

@@ -30,14 +30,14 @@ public class TestDAOComputer extends DataSourceDBUnitTest {
 	@Test
 	public void testSearchAllPaginationCompanyDAO() throws Exception {
 
-		List<Company> companiesPagination = companyDAO.searchAllPagination(0);
+		List<Company> companiesPagination = companyDAO.getAllPage(0);
 		assertEquals(10, companiesPagination.size());
 	}
 
 	@Test
 	public void testSearchAllComputerDAO() throws Exception {
 
-		List<Computer> computers = computerDAO.searchAll();
+		List<Computer> computers = computerDAO.getAll();
 		assertEquals(13, computers.size());
 	}
 
@@ -47,7 +47,7 @@ public class TestDAOComputer extends DataSourceDBUnitTest {
 		Page<Computer> pageComputer = new Page<Computer>();
 		pageComputer.setPageInt(0);
 		pageComputer.setObjetPerPage(10);
-		List<Computer> computers = computerDAO.searchAllPagination(pageComputer);
+		List<Computer> computers = computerDAO.getPage(pageComputer);
 		assertEquals(10, computers.size());
 	}
 

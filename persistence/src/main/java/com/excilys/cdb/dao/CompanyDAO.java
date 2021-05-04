@@ -18,15 +18,11 @@ import com.excilys.cdb.mapper.MapperCompany;
 import com.excilys.cdb.model.Company;
 
 @Repository
+@Transactional
 public class CompanyDAO {
 
 	private final MapperCompany mapperCompany;
 	private final SessionFactory sessionFactory;
-
-	public CompanyDAO(SessionFactory sessionFactory, MapperCompany mapperCompany) {
-		this.sessionFactory = sessionFactory;
-		this.mapperCompany = mapperCompany;
-	}
 
 	private static final int OBJECT_NUMBER_PER_PAGE = 10;
 	private static final String HQL_ALL_COMPANY = "FROM CompanyDTOPersistence ORDER BY id";
@@ -35,7 +31,12 @@ public class CompanyDAO {
 	private static final String HQL_DELETE = "DELETE FROM CompanyDTOPersistence WHERE id=:id;";
 //	private static final String SQL_DELETE_COMPUTER = "DELETE FROM computer WHERE company_id=:id;";
 	private static final String HQL_DELETE_COMPUTER = "DELETE FROM ComputerDTOPersistence WHERE companyDTOPersistence.id=:id;";
-
+	
+	public CompanyDAO(SessionFactory sessionFactory, MapperCompany mapperCompany) {
+		this.sessionFactory = sessionFactory;
+		this.mapperCompany = mapperCompany;
+	}
+	
 	public List<Company> searchAll() {
 		List<Company> companies = new ArrayList<>();
 		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
@@ -51,7 +52,7 @@ public class CompanyDAO {
 		}
 		return companies;
 	}
-
+	
 	public List<Company> searchAllPagination(int page) throws DAOException {
 		List<Company> companies = new ArrayList<>();
 		List<CompanyDTOPersistence> companiesDTO = new ArrayList<>();
@@ -72,7 +73,6 @@ public class CompanyDAO {
 		return companies;
 	}
 
-	@Transactional
 	public void delete(Long id) throws DAOException {
 
 		try {

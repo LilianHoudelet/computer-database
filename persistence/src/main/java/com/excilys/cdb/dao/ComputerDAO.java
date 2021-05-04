@@ -19,15 +19,11 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 
 @Repository
+@Transactional
 public class ComputerDAO {
 
 	private final SessionFactory sessionFactory;
 	private final MapperComputer mapperComputer;
-
-	public ComputerDAO(SessionFactory sessionFactory, MapperComputer mapperComputer) {
-		this.mapperComputer = mapperComputer;
-		this.sessionFactory = sessionFactory;
-	}
 
 	private static final String HQL_UPDATE = "UPDATE ComputerDTOPersistence SET name=:name, introduced=:introduced, discontinued=:discontinued, companyDTOPersistence.id=:companyId WHERE id=:id";
 	private static final String HQL_DELETE = "DELETE FROM ComputerDTOPersistence WHERE id=:id";
@@ -39,7 +35,11 @@ public class ComputerDAO {
 	private static final String HQL_SEARCH_BY_NAME_COMPA_COMPU = "FROM ComputerDTOPersistence computer left join fetch computer.companyDTOPersistence as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
 	private static final String HQL_SEARCH_BY_NAME_COUNT = "SELECT COUNT(computer.id) FROM ComputerDTOPersistence computer left join computer.companyDTOPersistence  company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ";
 
-	@Transactional
+	public ComputerDAO(SessionFactory sessionFactory, MapperComputer mapperComputer) {
+		this.mapperComputer = mapperComputer;
+		this.sessionFactory = sessionFactory;
+	}
+	
 	public void create(Computer computer) throws DAOException {
 		try {
 			Number id = (Number) sessionFactory.getCurrentSession()
@@ -64,8 +64,7 @@ public class ComputerDAO {
 			LoggerCdb.logError(this.getClass(), e);
 		}
 	}
-
-	@Transactional
+		
 	public void update(Computer computer) throws DAOException {
 		try {
 			Session session = sessionFactory.getCurrentSession();
@@ -85,8 +84,7 @@ public class ComputerDAO {
 			LoggerCdb.logError(this.getClass(), e);
 		}
 	}
-
-	@Transactional
+	
 	public void delete(Long id) throws DAOException {
 		try {
 			Session session = sessionFactory.getCurrentSession();
@@ -100,7 +98,7 @@ public class ComputerDAO {
 			LoggerCdb.logError(this.getClass(), e);
 		}
 	}
-
+	
 	public Optional<Computer> search(Long id) throws DAOException {
 		Optional<Computer> computer = Optional.empty();
 		try {
@@ -116,8 +114,7 @@ public class ComputerDAO {
 		}
 		return computer;
 	}
-	
-	@Transactional
+		
 	public List<Computer> searchAll() {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
@@ -131,7 +128,7 @@ public class ComputerDAO {
 		}
 		return computers;
 	}
-
+	
 	public List<Computer> searchAllPagination(Page<Computer> page) {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();
@@ -164,6 +161,7 @@ public class ComputerDAO {
 		return nbComputer;
 	}
 
+	
 	public int searchNameCount(String name) {
 		int nbComputer = 0;
 		try {
@@ -177,7 +175,7 @@ public class ComputerDAO {
 		}
 		return nbComputer;
 	}
-
+	
 	public List<Computer> searchNamePagination(Page<Computer> page, String name) throws DAOException {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();

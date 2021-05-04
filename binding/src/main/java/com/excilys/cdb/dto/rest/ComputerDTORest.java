@@ -13,14 +13,14 @@ public class ComputerDTORest implements Serializable {
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private CompanyDTORest companyDTORest;
+	private CompanyDTORest company;
 
 	private ComputerDTORest(ComputerDTORestBuilder computerBuilder) {
 		this.id = computerBuilder.id;
 		this.name = computerBuilder.name;
 		this.introduced = computerBuilder.introduced;
 		this.discontinued = computerBuilder.discontinued;
-		this.companyDTORest = computerBuilder.companyDTORest;
+		this.company = computerBuilder.company;
 	}
 
 	private ComputerDTORest() {
@@ -32,7 +32,7 @@ public class ComputerDTORest implements Serializable {
 		private String name;
 		private LocalDate introduced;
 		private LocalDate discontinued;
-		private CompanyDTORest companyDTORest;
+		private CompanyDTORest company;
 
 		public ComputerDTORestBuilder(Long id) {
 			this.id = id;
@@ -54,7 +54,7 @@ public class ComputerDTORest implements Serializable {
 		}
 
 		public ComputerDTORestBuilder company(CompanyDTORest companyDTORest) {
-			this.companyDTORest = companyDTORest;
+			this.company = companyDTORest;
 			return this;
 		}
 
@@ -102,11 +102,11 @@ public class ComputerDTORest implements Serializable {
 	}
 
 	public CompanyDTORest getCompanyDTORest() {
-		return companyDTORest;
+		return company;
 	}
 
 	public void setCompanyDTORest(CompanyDTORest companyDTORest) {
-		this.companyDTORest = companyDTORest;
+		this.company = companyDTORest;
 	}
 
 //	public Long getCompanyId() {
@@ -121,7 +121,7 @@ public class ComputerDTORest implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((companyDTORest == null) ? 0 : companyDTORest.hashCode());
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
@@ -141,11 +141,11 @@ public class ComputerDTORest implements Serializable {
 			return false;
 		}
 		ComputerDTORest other = (ComputerDTORest) obj;
-		if (companyDTORest == null) {
-			if (other.companyDTORest != null) {
+		if (company == null) {
+			if (other.company != null) {
 				return false;
 			}
-		} else if (!companyDTORest.equals(other.companyDTORest)) {
+		} else if (!company.equals(other.company)) {
 			return false;
 		}
 		if (discontinued == null) {
@@ -182,7 +182,7 @@ public class ComputerDTORest implements Serializable {
 	@Override
 	public String toString() {
 		return "ComputerDTORest [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued="
-				+ discontinued + ", company=" + companyDTORest + "]";
+				+ discontinued + ", company=" + company + "]";
 	}
 
 }

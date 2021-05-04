@@ -2,7 +2,6 @@ package com.excilys.cdb.controller.api;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +23,16 @@ import com.excilys.cdb.service.PageService;
 @RestController
 @RequestMapping("/api/company")
 public class CompanyAPI {
-	@Autowired
+	
 	CompanyService companyService;
-	@Autowired
 	MapperCompany mapperCompany;
-	@Autowired
 	private PageService pageService;
+	
+	public CompanyAPI(CompanyService companyService, MapperCompany mapperCompany, PageService pageService){
+		this.companyService = companyService;
+		this.mapperCompany = mapperCompany;
+		this.pageService = pageService;
+	}
 
 	@GetMapping
 	public ResponseEntity<?> getCompany() {

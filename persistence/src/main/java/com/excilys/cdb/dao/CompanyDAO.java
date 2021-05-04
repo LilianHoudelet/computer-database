@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.dto.persistence.CompanyDTOPersistence;
+import com.excilys.cdb.dto.persistence.ComputerDTOPersistence;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.mapper.MapperCompany;
@@ -28,12 +29,12 @@ public class CompanyDAO {
 	}
 
 	private static final int OBJECT_NUMBER_PER_PAGE = 10;
-	private static final String HQL_ALL_COMPANY = "FROM CompanyDTOPersistance ORDER BY id";
-	private static final String HQL_ALL_COMPANY_PAGINATION = "FROM CompanyDTOPersistance ORDER BY id ";
+	private static final String HQL_ALL_COMPANY = "FROM CompanyDTOPersistence ORDER BY id";
+	private static final String HQL_ALL_COMPANY_PAGINATION = "FROM CompanyDTOPersistence ORDER BY id ";
 //	private static final String SQL_DELETE = "DELETE FROM company WHERE id=:id;";
-	private static final String HQL_DELETE = "DELETE FROM CompanyDTOPersistance WHERE id=:id;";
+	private static final String HQL_DELETE = "DELETE FROM CompanyDTOPersistence WHERE id=:id;";
 //	private static final String SQL_DELETE_COMPUTER = "DELETE FROM computer WHERE company_id=:id;";
-	private static final String HQL_DELETE_COMPUTER = "DELETE FROM ComputerDTOPersistance WHERE companyDTOPersistance.id=:id;";
+	private static final String HQL_DELETE_COMPUTER = "DELETE FROM ComputerDTOPersistence WHERE companyDTOPersistence.id=:id;";
 
 	public List<Company> searchAll() {
 		List<Company> companies = new ArrayList<>();
@@ -43,7 +44,7 @@ public class CompanyDAO {
 
 			companiesDTO = session.createQuery(HQL_ALL_COMPANY, CompanyDTOPersistence.class).list();
 
-			companies = mapperCompany.mapFromListDTOPersistanceToListModel(companiesDTO);
+			companies = mapperCompany.mapFromListDTOPersistenceToListModel(companiesDTO);
 			return companies;
 		} catch (HibernateException e) {
 			LoggerCdb.logError(this.getClass(), e);
@@ -63,7 +64,7 @@ public class CompanyDAO {
 			query.setFirstResult(page * OBJECT_NUMBER_PER_PAGE);
 			query.setMaxResults(OBJECT_NUMBER_PER_PAGE);
 			companiesDTO = query.list();
-			companies = mapperCompany.mapFromListDTOPersistanceToListModel(companiesDTO);
+			companies = mapperCompany.mapFromListDTOPersistenceToListModel(companiesDTO);
 			return companies;
 		} catch (HibernateException e) {
 			LoggerCdb.logError(this.getClass(), e);

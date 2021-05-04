@@ -28,7 +28,7 @@ public class TestCompanyParameterizedValide {
 
 	@Test
 	public void testCompanyCreation() {
-		Company company = new Company.CompanyBuilder(id).name(name).build();
+		Company company = new Company(id,name);
 		assertTrue(company.getId() == id);
 		assertTrue(company.getName() == name);
 

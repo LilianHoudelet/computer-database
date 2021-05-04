@@ -26,6 +26,7 @@ import com.excilys.cdb.service.PageService;
 @RestController
 @RequestMapping("/api/computer")
 public class ComputerAPI {
+	
 	@Autowired
 	private ComputerService computerService;
 	@Autowired
@@ -40,7 +41,7 @@ public class ComputerAPI {
 		try {
 			listComputer = this.computerService.searchAllComputer();
 			if (listComputer.size() == 0) {
-				throw new InputException("No computer found. Please, verify the page number.");
+				throw new InputException("No computer found.");
 			}
 		} catch (InputException e) {
 			LoggerCdb.logError(getClass(), e);

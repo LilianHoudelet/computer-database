@@ -42,7 +42,7 @@ public class MapperComputer {
 	public Computer mapFromDTOAddToModel(ComputerDTOAdd computerDTOAdd) {
 		LocalDate introduced = null;
 		LocalDate discontinued = null;
-		Company company = new Company.CompanyBuilder(null).build();
+		Company company = new Company();
 		Computer computer = new Computer.ComputerBuilder(null).build();
 		if (computerDTOAdd.getIntroduced() != null && computerDTOAdd.getIntroduced().compareTo("") != 0) {
 			introduced = LocalDate.parse(computerDTOAdd.getIntroduced());
@@ -53,7 +53,7 @@ public class MapperComputer {
 		}
 
 		if (computerDTOAdd.getCompanyId() != null && computerDTOAdd.getCompanyId().compareTo("0") != 0) {
-			company = new Company.CompanyBuilder(Long.parseLong(computerDTOAdd.getCompanyId())).build();
+			company = new Company(Long.parseLong(computerDTOAdd.getCompanyId()), null);
 
 		}
 		computer = new Computer.ComputerBuilder(null).name(computerDTOAdd.getComputerName()).introduced(introduced)
@@ -64,7 +64,7 @@ public class MapperComputer {
 	public Computer mapFromDTOEditToModel(ComputerDTOEdit computerDTOEdit) {
 		LocalDate introduced = null;
 		LocalDate discontinued = null;
-		Company company = new Company.CompanyBuilder(null).build();
+		Company company = new Company();
 		Computer computer = new Computer.ComputerBuilder(null).build();
 		if (computerDTOEdit.getIntroduced() != null && computerDTOEdit.getIntroduced().compareTo("") != 0) {
 			introduced = LocalDate.parse(computerDTOEdit.getIntroduced());
@@ -75,7 +75,7 @@ public class MapperComputer {
 		}
 
 		if (computerDTOEdit.getCompanyId() != null && computerDTOEdit.getCompanyId().compareTo("0") != 0) {
-			company = new Company.CompanyBuilder(Long.parseLong(computerDTOEdit.getCompanyId())).build();
+			company = new Company(Long.parseLong(computerDTOEdit.getCompanyId()), null);
 
 		}
 		computer = new Computer.ComputerBuilder(Long.valueOf(computerDTOEdit.getId()))

@@ -2,11 +2,18 @@ package com.excilys.cdb.config;
 
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -22,27 +29,20 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @ComponentScan({ "com.excilys.cdb.service.config", "com.excilys.cdb.controller.web", "com.excilys.cdb.controller.api",
 		"com.excilys.cdb.persistance.config", "com.excilys.cdb.security.config" })
-public class MyWebConfig implements WebMvcConfigurer {
-//, WebApplicationInitializer {
+public class MyWebConfig implements WebMvcConfigurer, WebApplicationInitializer {
 
-//	@Override
-//	public void onStartup(ServletContext container) throws ServletException {
-//		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-//		context.register(MyWebConfig.class);
-////		container.addListener(new ContextLoaderListener(context));
-////		AnnotationConfigWebApplicationContext dispatcherServlet = new AnnotationConfigWebApplicationContext();
-////		ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher",
-////				(Servlet) new DispatcherServlet(dispatcherServlet));
-////		dispatcher.setLoadOnStartup(1);
-////		dispatcher.addMapping("/");
-//
-//		ServletRegistration.Dynamic registration = container.addServlet("rootDispatcher",
-//				new DispatcherServlet(context));
-//		context.setServletContext(container);
-//		registration.setLoadOnStartup(1);
-//		registration.addMapping("/");
-//		context.close();
-//	}
+	@Override
+	public void onStartup(ServletContext container) throws ServletException {
+		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+		context.register(MyWebConfig.class);
+
+		ServletRegistration.Dynamic registration = container.addServlet("rootDispatcher",
+				new DispatcherServlet(context));
+		context.setServletContext(container);
+		registration.setLoadOnStartup(1);
+		registration.addMapping("/");
+		context.close();
+	}
 
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
@@ -52,17 +52,6 @@ public class MyWebConfig implements WebMvcConfigurer {
 		bean.setSuffix(".jsp");
 		return bean;
 	}
-
-//	@Bean
-//	@Scope("prototype")
-//	public ModelAndView getModelAndView() {
-//		return new ModelAndView();
-//	}
-
-//	@Bean
-//	public PlatformTransactionManager txManager() {
-//		return new DataSourceTransactionManager(getDataSource());
-//	}
 
 	@Bean
 	public MessageSource messageSource() {

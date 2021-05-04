@@ -35,9 +35,9 @@ public class TestComputerParameterizedValide {
 		return Arrays.asList(new Object[][] {{1L, "test", null, null, null}, {null, "test", null, null, null},
 				{null, "test", LocalDate.parse("1900-10-10"), null, null},
 				{null, "test", LocalDate.parse("1900-10-10"), LocalDate.parse("1900-10-11"), null},
-				{null, "test", null, null, new Company.CompanyBuilder(1L).build()},
+				{null, "test", null, null, new Company(1L, null)},
 				{1L, "test", LocalDate.parse("1900-10-10"), LocalDate.parse("1900-10-11"),
-						new Company.CompanyBuilder(1L).build()}});
+					new Company(1L, null)}});
 	}
 
 	@Test

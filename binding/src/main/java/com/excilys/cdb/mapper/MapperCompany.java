@@ -1,7 +1,5 @@
 package com.excilys.cdb.mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,13 +12,6 @@ import com.excilys.cdb.model.Company;
 
 @Component
 public class MapperCompany {
-
-	public Company mapFromResultSet(ResultSet resultSet) throws SQLException {
-
-		Company company = new Company.CompanyBuilder(resultSet.getLong("id")).name(resultSet.getString("name")).build();
-
-		return company;
-	}
 
 	public CompanyDTO mapFromModelToDTO(Company company) {
 
@@ -40,8 +31,7 @@ public class MapperCompany {
 
 	public Company mapFromDTOPersistenceToModel(CompanyDTOPersistence companyDTOPersistance) {
 
-		Company company = new Company.CompanyBuilder(companyDTOPersistance.getIdCompany())
-				.name(companyDTOPersistance.getName()).build();
+		Company company = new Company(companyDTOPersistance.getIdCompany(),companyDTOPersistance.getName());
 
 		return company;
 	}
@@ -88,7 +78,7 @@ public class MapperCompany {
 		if (companyDTORest == null || (companyDTORest.getId() == null && companyDTORest.getName() == null)) {
 			return null;
 		} else {
-			return new Company.CompanyBuilder(companyDTORest.getId()).name(companyDTORest.getName()).build();
+			return new Company(companyDTORest.getId(),companyDTORest.getName());
 		}
 
 	}

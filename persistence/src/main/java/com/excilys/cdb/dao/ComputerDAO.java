@@ -31,7 +31,6 @@ public class ComputerDAO {
 	private static final String HQL_ALL_COMPUTER = "FROM ComputerDTOPersistence ORDER BY id";
 	private static final String HQL_ALL_COMPUTER_PAGINATION = "FROM ComputerDTOPersistence as computer ORDER BY ORDERATTRIBUTE ORDERSORT  ";
 	private static final String HQL_COUNT_ALL_COMPUTER = "SELECT COUNT(id) FROM ComputerDTOPersistence ";
-//	private static final String SQL_SEARCH_BY_NAME_COMPA_COMPU = "SELECT New com.excilys.cdb.dto.ComputerDTOPersistence(computer.id, computer.name, computer.introduced, computer.discontinued, computer.companyDTOPersistence)  FROM ComputerDTOPersistence computer left join computer.companyDTOPersistence as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
 	private static final String HQL_SEARCH_BY_NAME_COMPA_COMPU = "FROM ComputerDTOPersistence computer left join fetch computer.companyDTOPersistence as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
 	private static final String HQL_SEARCH_BY_NAME_COUNT = "SELECT COUNT(computer.id) FROM ComputerDTOPersistence computer left join computer.companyDTOPersistence  company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ";
 
@@ -49,15 +48,6 @@ public class ComputerDAO {
 			} else {
 				throw new DAOException("No computer created on the database, no generated ID returned.");
 			}
-
-//		} catch (HibernateException e) {
-//			if (SQLIntegrityConstraintViolationException.class == e.getCause().getClass()) {
-//				throw new DAOException("An error occured because the company doesn't exist.");
-//			} else if (MysqlDataTruncation.class == e.getCause().getClass()) {
-//				throw new DAOException("An error occured because date cannot be bellow 1970-01-01.");
-//			} else {
-//				LoggerCdb.logError(this.getClass(), e);
-//			}
 		} catch (HibernateException e) {
 			LoggerCdb.logError(this.getClass(), e);
 		} catch (DAOException e) {
@@ -161,7 +151,6 @@ public class ComputerDAO {
 		return nbComputer;
 	}
 
-	
 	public int searchNameCount(String name) {
 		int nbComputer = 0;
 		try {
@@ -182,7 +171,6 @@ public class ComputerDAO {
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Query<ComputerDTOPersistence> query = session.createQuery(HQL_SEARCH_BY_NAME_COMPA_COMPU
-
 					.replace("ORDERATTRIBUTE", page.getOrderAttribute()).replace("ORDERSORT", page.getOrderSort()),
 					ComputerDTOPersistence.class);
 			query.setFirstResult(page.getObjetPerPage() * page.getPageInt());

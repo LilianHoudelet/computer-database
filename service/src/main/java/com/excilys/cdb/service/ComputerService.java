@@ -17,9 +17,9 @@ public class ComputerService {
 
 	ComputerDAO computerDAO;
 
-	public ComputerService(ComputerDAO computerDAOImpl) {
+	public ComputerService(ComputerDAO computerDAO) {
 
-		this.computerDAO = computerDAOImpl;
+		this.computerDAO = computerDAO;
 	}
 
 	public List<Computer> searchAllComputer() {
@@ -35,8 +35,8 @@ public class ComputerService {
 
 	public Optional<Computer> searchByIdComputer(Long idToSearch) {
 		try {
-
 			Optional<Computer> compSearched = computerDAO.search(idToSearch);
+			
 			return compSearched;
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -46,7 +46,7 @@ public class ComputerService {
 		return Optional.empty();
 	}
 
-	public boolean createComputer(Computer compToCreate) {
+	public boolean createComputer(Computer compToCreate) { // TODO améliorer le systeme avec le boolean 
 		boolean success = false;
 		try {
 
@@ -61,11 +61,9 @@ public class ComputerService {
 		return success;
 	}
 
-	public boolean updateComputer(Computer compToUpdate) {
+	public boolean updateComputer(Computer compToUpdate) { // TODO améliorer le systeme avec le boolean 
 		boolean success = false;
 		try {
-//
-//			CliMenu.showUpdateOneComputer();
 			computerDAO.update(compToUpdate);
 			success = true;
 
@@ -77,10 +75,9 @@ public class ComputerService {
 		return success;
 	}
 
-	public boolean deleteComputer(Long compToDeleteID) {
+	public boolean deleteComputer(Long compToDeleteID) { // TODO améliorer le systeme avec le boolean 
 		boolean success = false;
 		try {
-
 			computerDAO.delete(compToDeleteID);
 			success = true;
 
@@ -96,9 +93,7 @@ public class ComputerService {
 	public int countComputer() {
 		int nbComputer = 0;
 		try {
-
 			nbComputer = computerDAO.searchAllCount();
-
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {
@@ -110,9 +105,7 @@ public class ComputerService {
 	public int searchNameCount(String name) {
 		int nbComputer = 0;
 		try {
-
 			nbComputer = computerDAO.searchNameCount(name);
-
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {

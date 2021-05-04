@@ -14,7 +14,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({ "com.excilys.cdb.dao", "com.excilys.cdb.binding.config" })
+@ComponentScan({ "com.excilys.cdb.dao", "com.excilys.cdb.config" })
 public class HibernateConfig {
 
 	@Bean("dataSource")
@@ -27,9 +27,6 @@ public class HibernateConfig {
 		LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 		factoryBean.setDataSource(getDataSource());
 		factoryBean.setPackagesToScan("com.excilys.cdb.dto");
-//		Properties hibernateProperties = new Properties();
-//		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-//		factoryBean.setHibernateProperties(hibernateProperties);
 		factoryBean.setHibernateProperties(
 				(Properties) new Properties().setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"));
 		return factoryBean;

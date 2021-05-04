@@ -14,33 +14,29 @@ import com.excilys.cdb.model.Company;
 @Service
 public class CompanyService {
 
-	CompanyDAO companyDAOImpl;
+	CompanyDAO companyDAO;
+	
+	public CompanyService(CompanyDAO companyDAO) {
 
-	public CompanyService(CompanyDAO companyDAOImpl) {
-
-		this.companyDAOImpl = companyDAOImpl;
+		this.companyDAO = companyDAO;
 	}
 
 	public List<Company> searchAllCompany() {
 		try {
-
-			return companyDAOImpl.searchAll();
-
+			return companyDAO.searchAll();
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);
 		} catch (DAOConfigurationException e) {
 			LoggerCdb.logError(getClass(), e);
 		}
 		return new ArrayList<Company>();
-
 	}
 
-	public boolean deleteCompany(Long compToDeleteID) {
+	public boolean deleteCompany(Long compToDeleteID) { // TODO améliorer le systeme avec le boolean 
 		boolean success = false;
 		try {
-
-			companyDAOImpl.delete(compToDeleteID);
-			success = true;
+			companyDAO.delete(compToDeleteID);
+			success = !success;
 
 		} catch (DAOException e) {
 			LoggerCdb.logError(getClass(), e);

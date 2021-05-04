@@ -11,8 +11,8 @@ public class TestCompany {
 	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testEqualsAndHashcode() {
-		Company computer = new Company.CompanyBuilder(1L).name("test").build();
-		Company computerEqual = new Company.CompanyBuilder(1L).name("test").build();
+		Company computer = new Company(1L,"test");
+		Company computerEqual = new Company(1L,"test");
 		Computer computerDiff = new Computer.ComputerBuilder(2L).build();
 		assertEquals(computer, computerEqual);
 		assertTrue(computer.hashCode() == computerEqual.hashCode());

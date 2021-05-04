@@ -38,7 +38,7 @@ public class CompanyAPI {
 		try {
 			listCompany = this.companyService.searchAllCompany();
 			if (listCompany.size() == 0) {
-				throw new InputException("No computer found. Please, verify the page number.");
+				throw new InputException("No company found.");
 			}
 		} catch (InputException e) {
 			LoggerCdb.logError(getClass(), e);
@@ -59,7 +59,7 @@ public class CompanyAPI {
 		try {
 			listCompany = this.pageService.searchAllCompanyPage(numPage);
 			if (listCompany.size() == 0) {
-				throw new InputException("No computer found. Please, verify the page number.");
+				throw new InputException("No companie found. Please, verify the page number.");
 			}
 		} catch (InputException e) {
 			LoggerCdb.logError(getClass(), e);

@@ -116,7 +116,8 @@ public class ComputerDAO {
 		}
 		return computer;
 	}
-
+	
+	@Transactional
 	public List<Computer> searchAll() {
 		List<Computer> computers = new ArrayList<>();
 		List<ComputerDTOPersistence> computersDTO = new ArrayList<>();

@@ -3,23 +3,22 @@ package com.excilys.cdb.model;
 public class User {
 
 	private int id;
-	private String authority;
+	private Role role;
 	private String username;
 	private String password;
 	private boolean enabled;
 
-	public User(int id, String authority, String username, String password, boolean enabled) {
-		super();
+	public User(int id, Role role, String username, String password, boolean enabled) {
 		this.id = id;
-		this.authority = authority;
+		this.role = role;
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
 	}
 
-	public User(String authority, String username, String password, boolean enabled) {
+	public User(Role role, String username, String password, boolean enabled) {
 
-		this.authority = authority;
+		this.role = role;
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
@@ -33,12 +32,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getAuthority() {
-		return authority;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public String getUsername() {

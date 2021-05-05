@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.excilys.cdb.model.User;
 import com.excilys.cdb.service.UserService;
 
 @Controller
@@ -52,13 +51,13 @@ public class Login {
 		return "redirect:/login?logout=true";
 	}
 
-	@GetMapping("/register")
-	public void doRegister() {
-		String encodedPassword = passwordEncoder.encode("network");
-		User user = new User("ROLE_USER", "user", encodedPassword, true);
-		userService.create(user);
-		User admin = new User("ROLE_ADMIN", "admin", encodedPassword, true);
-		userService.create(admin);
-
-	}
+//	@GetMapping("/register")
+//	public void doRegister() {
+//		String encodedPassword = passwordEncoder.encode("network");
+//		User user = new User("ROLE_USER", "user", encodedPassword, true);
+//		userService.create(user);
+//		User admin = new User("ROLE_ADMIN", "admin", encodedPassword, true);
+//		userService.create(admin);
+//	}
+	
 }

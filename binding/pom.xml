@@ -13,10 +13,6 @@
 	<artifactId>binding</artifactId>
 	<packaging>jar</packaging>
 
-	<properties>
-
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.excilys</groupId>

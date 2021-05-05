@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.excilys.cdb.dto.rest.CompanyDTORest;
 import com.excilys.cdb.exception.CompanyNotFoundException;
 import com.excilys.cdb.logger.LoggerCdb;
-import com.excilys.cdb.mapper.MapperCompany;
+import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.service.CompanyService;
 
@@ -22,17 +22,16 @@ import com.excilys.cdb.service.CompanyService;
 @RequestMapping("/api/companies")
 public class CompanyAPI {
 	
-	CompanyService companyService;
-	MapperCompany mapperCompany;
+	private final CompanyService companyService;
+	private final CompanyMapper mapperCompany;
 	
-	public CompanyAPI(CompanyService companyService, MapperCompany mapperCompany){
+	public CompanyAPI(CompanyService companyService, CompanyMapper mapperCompany) {
 		this.companyService = companyService;
 		this.mapperCompany = mapperCompany;
 	}
 
 	@GetMapping
 	public ResponseEntity<?> getCompanies() {
-
 		List<Company> listCompany = companyService.getCompanies();
 		List<CompanyDTORest> listDTO = mapperCompany.mapFromListModelToListDTORest(listCompany);
 		return new ResponseEntity<>(listDTO, HttpStatus.OK);

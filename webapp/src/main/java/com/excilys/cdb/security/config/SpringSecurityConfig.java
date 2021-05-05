@@ -7,14 +7,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan({ "com.excilys.cdb.security.config" })
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -24,46 +30,51 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	DataSource dataSource;
 
-	@Override
-	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-
-//		auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser("user")
-//				.password(passwordEncoder().encode("network")).roles("USER").and().withUser("admin")
-//				.password(passwordEncoder().encode("network")).roles("ADMIN");
-		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
-				.usersByUsernameQuery("SELECT username, password, enabled FROM users where username = ?")
-				.authoritiesByUsernameQuery("SELECT username, authority " + "FROM users " + "WHERE username = ? ");
-	}
-
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
-//V1
-//		http.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/ListComputer*").hasRole("USER")
-//				.antMatchers("/AddComputer", "/EditComputer").hasRole("ADMIN").and().formLogin().loginPage("/login")
-//				.defaultSuccessUrl("/ListComputer").failureUrl("/login?error=true").and().logout()
-//				.deleteCookies("JSESSIONID").and().rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400).and()
-//				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		http.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/**").hasAnyRole("ADMIN", "USER").and()
-
-		// V2
-//		http.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/ListComputer")
-//				.hasAnyRole("USER", "ADMIN").antMatchers("/AddComputer", "/EditComputer").hasRole("ADMIN").and()
-//				.formLogin().loginPage("/login").defaultSuccessUrl("/ListComputer").failureUrl("/login?error=true")
-//				.permitAll().and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true)
-//				.permitAll().and().rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);
-		http.authorizeRequests().antMatchers("/login").permitAll() //, "/api**"
-		.antMatchers("/api**", "/register").hasAnyRole("ADMIN")
-//			.antMatchers("/ListComputer").hasAnyRole("USER", "ADMIN").antMatchers("/AddComputer", "/EditComputer").hasRole("ADMIN")
-			.and().formLogin().loginPage("/login").defaultSuccessUrl("/api/computer").failureUrl("/login?error=true").permitAll()
-				.and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).and()
-				.httpBasic().realmName("realm").authenticationEntryPoint(authenticationEntryPoint).and().csrf()
-				.disable();
-
-	}
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Override
+	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder())
+				.usersByUsernameQuery("SELECT username, password, enabled FROM users where username = ?")
+				.authoritiesByUsernameQuery(
+						"SELECT users.username, roles.role FROM users LEFT JOIN roles ON users.role_id = roles.id WHERE users.username = ?");
+	}
+
+//	@Autowired
+//	JwtTokenProvider jwtTokenProvider;
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable();
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.authorizeRequests()//
+				.antMatchers("/login").permitAll() // "/api/**",
+//				.mvcMatchers("/users/signup").permitAll()
+				.antMatchers("/api**", "/signup").hasRole("ADMIN")
+				// Disallow everything else.. .anyRequest()
+				.antMatchers("/login").authenticated().and().formLogin().loginPage("/login")
+				.defaultSuccessUrl("/api/computers", false);
+		http.exceptionHandling().accessDeniedPage("/users/signin");
+//		http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+		
+//		JwtTokenFilter customFilter = new JwtTokenFilter(jwtTokenProvider);
+//		http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
+
+		// Optional, if you want to test the API from a browser
+//		http.httpBasic().realmName("realm").authenticationEntryPoint(authenticationEntryPoint);
+	}
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+		CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+		source.registerCorsConfiguration("/**", corsConfiguration);
+
+		return source;
 	}
 
 }

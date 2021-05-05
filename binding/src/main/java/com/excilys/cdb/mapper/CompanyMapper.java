@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.dto.persistence.CompanyDTOPersistence;
+import com.excilys.cdb.dto.persistence.CompanyEntity;
 import com.excilys.cdb.dto.rest.CompanyDTORest;
 import com.excilys.cdb.dto.web.CompanyDTO;
 import com.excilys.cdb.model.Company;
 
 @Component
-public class MapperCompany {
+public class CompanyMapper {
 
 	public CompanyDTO mapFromModelToDTO(Company company) {
 
@@ -29,14 +29,14 @@ public class MapperCompany {
 		return listCompaniesDTO;
 	}
 
-	public Company mapFromDTOPersistenceToModel(CompanyDTOPersistence companyDTOPersistance) {
+	public Company mapFromDTOPersistenceToModel(CompanyEntity companyDTOPersistance) {
 
 		Company company = new Company(companyDTOPersistance.getIdCompany(),companyDTOPersistance.getName());
 
 		return company;
 	}
 
-	public List<Company> mapFromListDTOPersistenceToListModel(List<CompanyDTOPersistence> listCompanies) {
+	public List<Company> mapFromListDTOPersistenceToListModel(List<CompanyEntity> listCompanies) {
 
 		List<Company> listCompaniesDTO = listCompanies.stream().map(c -> mapFromDTOPersistenceToModel(c))
 				.collect(Collectors.toList());
@@ -44,12 +44,12 @@ public class MapperCompany {
 		return listCompaniesDTO;
 	}
 
-	public CompanyDTOPersistence mapFromModelToDTOPersistence(Company company) {
+	public CompanyEntity mapFromModelToDTOPersistence(Company company) {
 
 		if (company == null || (company.getId() == null && company.getName() == null)) {
 			return null;
 		} else {
-			return new CompanyDTOPersistence.CompanyDTOPersistanceBuilder(company.getId()).name(company.getName())
+			return new CompanyEntity.CompanyEntityBuilder(company.getId()).name(company.getName())
 					.build();
 		}
 

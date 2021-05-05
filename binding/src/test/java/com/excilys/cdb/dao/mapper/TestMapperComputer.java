@@ -8,16 +8,20 @@ import org.junit.Test;
 
 import com.excilys.cdb.dto.web.ComputerDTOAdd;
 import com.excilys.cdb.dto.web.ComputerDTOList;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class TestMapperComputer {
+	
+	private final ComputerMapper mapperComputer;
+	
+	public TestMapperComputer(ComputerMapper mapperComputer) {
+		this.mapperComputer = mapperComputer;
+	}
 
 	@Test
 	public void testMapFromModelToDTOList() {
-
-		MapperComputer mapperComputer = new MapperComputer();
 		Company company = new Company(2L,"testCompanyName");
 		Computer computer = new Computer.ComputerBuilder(1L).name("testComputerName")
 				.introduced(LocalDate.parse("2020-08-06")).discontinued(LocalDate.parse("2020-08-07")).company(company)
@@ -34,8 +38,6 @@ public class TestMapperComputer {
 
 	@Test
 	public void testMapFromModelToDTOListWithNull() {
-
-		MapperComputer mapperComputer = new MapperComputer();
 		Company company = new Company();
 		Computer computer = new Computer.ComputerBuilder(1L).name("testComputerName").introduced(null)
 				.discontinued(null).company(company).build();
@@ -50,9 +52,6 @@ public class TestMapperComputer {
 
 	@Test
 	public void testMapFromDTOAddToModel() {
-
-		MapperComputer mapperComputer = new MapperComputer();
-
 		ComputerDTOAdd computerDTOAdd = new ComputerDTOAdd.ComputerDTOAddBuilder("testComputerName")
 				.introduced("2020-08-06").discontinued("2020-08-07").company("2").build();
 		Computer computer = mapperComputer.mapFromDTOAddToModel(computerDTOAdd);
@@ -70,9 +69,6 @@ public class TestMapperComputer {
 
 	@Test
 	public void testMapFromDTOAddToModelWithNull() {
-
-		MapperComputer mapperComputer = new MapperComputer();
-
 		ComputerDTOAdd computerDTOAdd = new ComputerDTOAdd.ComputerDTOAddBuilder("testComputerName").introduced(null)
 				.discontinued(null).company(null).build();
 		Computer computer = mapperComputer.mapFromDTOAddToModel(computerDTOAdd);

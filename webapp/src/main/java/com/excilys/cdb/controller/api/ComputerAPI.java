@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.excilys.cdb.dto.rest.ComputerDTORest;
 import com.excilys.cdb.exception.ComputerNotFoundException;
 import com.excilys.cdb.logger.LoggerCdb;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
@@ -29,9 +29,9 @@ import com.excilys.cdb.service.ComputerService;
 public class ComputerAPI { // TODO renommer les variables pour les pages
 
 	private ComputerService computerService;
-	private MapperComputer mapperComputer;
+	private ComputerMapper mapperComputer;
 
-	public ComputerAPI(ComputerService computerService, MapperComputer mapperComputer) {
+	public ComputerAPI(ComputerService computerService, ComputerMapper mapperComputer) {
 		this.computerService = computerService;
 		this.mapperComputer = mapperComputer;
 	}

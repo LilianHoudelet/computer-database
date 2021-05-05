@@ -1,91 +1,69 @@
 package com.excilys.cdb.dto.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.excilys.cdb.model.Computer;
 
 @Entity
 @Table(name = "company")
-public class CompanyDTOPersistence {
+public class CompanyEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long idCompany;
 	private String name;
 
-	@OneToMany(targetEntity = ComputerDTOPersistence.class, mappedBy = "companyDTOPersistence")
-	private List<Computer> computers = new ArrayList<>();
-
-	private CompanyDTOPersistence() {
+	private CompanyEntity() {
+		
 	}
 
-	private CompanyDTOPersistence(CompanyDTOPersistanceBuilder computerBuilder) {
+	private CompanyEntity(CompanyEntityBuilder computerBuilder) {
 		this.idCompany = computerBuilder.idCompany;
 		this.name = computerBuilder.name;
-
 	}
 
-	public static class CompanyDTOPersistanceBuilder {
-
+	public static class CompanyEntityBuilder {
 		Long idCompany;
 		String name;
-
-		public CompanyDTOPersistanceBuilder(Long idCompany) {
+		
+		public CompanyEntityBuilder(Long idCompany) {
 			this.idCompany = idCompany;
 		}
 
-		public CompanyDTOPersistanceBuilder name(String name) {
+		public CompanyEntityBuilder name(String name) {
 			this.name = name;
 			return this;
 		}
 
-		public CompanyDTOPersistence build() {
-			CompanyDTOPersistence company = new CompanyDTOPersistence(this);
+		public CompanyEntity build() {
+			CompanyEntity company = new CompanyEntity(this);
 			return company;
 		}
 
 	}
 
-	/**
-	 * @return any id Value
-	 */
 	public Long getIdCompany() {
 		return idCompany;
 	}
 
-	/**
-	 * @param idCompany any Long value
-	 */
 	public void setIdCompany(Long idCompany) {
 		this.idCompany = idCompany;
 	}
 
-	/**
-	 * @return any String value
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name any String Value
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	@Override
 	public String toString() {
-		return "CompanyDTOPersistence [id=" + idCompany + ", name=" + name + "]";
+		return "CompanyEntity [id=" + idCompany + ", name=" + name + "]";
 	}
 
 	@Override
@@ -108,7 +86,7 @@ public class CompanyDTOPersistence {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CompanyDTOPersistence other = (CompanyDTOPersistence) obj;
+		CompanyEntity other = (CompanyEntity) obj;
 		if (idCompany == null) {
 			if (other.idCompany != null) {
 				return false;

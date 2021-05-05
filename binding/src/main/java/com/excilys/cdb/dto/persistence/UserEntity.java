@@ -4,24 +4,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class UserDTOPersistence {
+public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String authority;
+	@ManyToOne
+	@JoinColumn(name = "role_id", referencedColumnName = "id")
+	private RoleEntity roleEntity;
 	private String username;
+	private String email;
 	private String password;
 	private boolean enabled;
+	
+	public UserEntity() {
+		
+	}
 
-	public UserDTOPersistence(int id, String authority, String username, String password, boolean enabled) {
-		super();
+	public UserEntity(int id, RoleEntity roleEntity, String username, String email, String password, boolean enabled) {
 		this.id = id;
-		this.authority = authority;
+		this.roleEntity = roleEntity;
 		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.enabled = enabled;
 	}
@@ -34,12 +43,12 @@ public class UserDTOPersistence {
 		this.id = id;
 	}
 
-	public String getAuthority() {
-		return authority;
+	public RoleEntity getRoleEntity() {
+		return roleEntity;
 	}
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setRoleEntity(RoleEntity roleEntity) {
+		this.roleEntity = roleEntity;
 	}
 
 	public String getUsername() {
@@ -48,6 +57,14 @@ public class UserDTOPersistence {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

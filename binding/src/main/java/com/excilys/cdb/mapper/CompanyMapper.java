@@ -13,7 +13,7 @@ import com.excilys.cdb.dto.web.CompanyDTO;
 import com.excilys.cdb.model.Company;
 
 @Component
-public class MapperCompany {
+public class CompanyMapper {
 
 	public Company mapFromResultSet(ResultSet resultSet) throws SQLException {
 

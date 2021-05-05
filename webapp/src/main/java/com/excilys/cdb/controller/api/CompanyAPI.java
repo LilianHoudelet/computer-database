@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.excilys.cdb.dto.rest.CompanyDTORest;
 import com.excilys.cdb.exception.InputException;
 import com.excilys.cdb.logger.LoggerCdb;
-import com.excilys.cdb.mapper.MapperCompany;
+import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.CompanyService;
@@ -27,7 +27,7 @@ public class CompanyAPI {
 	@Autowired
 	CompanyService companyService;
 	@Autowired
-	MapperCompany mapperCompany;
+	CompanyMapper mapperCompany;
 	@Autowired
 	private PageService pageService;
 

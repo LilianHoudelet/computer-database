@@ -18,8 +18,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.excilys.cdb.dto.web.CompanyDTO;
 import com.excilys.cdb.dto.web.ComputerDTOAdd;
-import com.excilys.cdb.mapper.MapperCompany;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.mapper.CompanyMapper;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;
@@ -29,9 +29,9 @@ import com.excilys.cdb.service.ComputerService;
 public class AddComputer {
 
 	@Autowired
-	private MapperCompany mapperCompany;
+	private CompanyMapper mapperCompany;
 	@Autowired
-	private MapperComputer mapperComputer;
+	private ComputerMapper mapperComputer;
 	@Autowired
 	private CompanyService companyService;
 	@Autowired

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.excilys.cdb.dto.rest.ComputerDTORest;
 import com.excilys.cdb.exception.InputException;
 import com.excilys.cdb.logger.LoggerCdb;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
@@ -31,7 +31,7 @@ public class ComputerAPI {
 	@Autowired
 	private PageService pageService;
 	@Autowired
-	private MapperComputer mapperComputer;
+	private ComputerMapper mapperComputer;
 
 	@GetMapping
 	public ResponseEntity<?> getComputer() {

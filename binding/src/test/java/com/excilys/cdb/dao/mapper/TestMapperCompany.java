@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.excilys.cdb.dto.web.CompanyDTO;
-import com.excilys.cdb.mapper.MapperCompany;
+import com.excilys.cdb.mapper.CompanyMapper;
 import com.excilys.cdb.model.Company;
 
 public class TestMapperCompany {
@@ -18,7 +18,7 @@ public class TestMapperCompany {
 	public void testMapFromResultSet() throws SQLException {
 
 		ResultSet rsMock = Mockito.mock(ResultSet.class);
-		MapperCompany mapperCompany = new MapperCompany();
+		CompanyMapper mapperCompany = new CompanyMapper();
 		Mockito.when(rsMock.getLong("id")).thenReturn(1L);
 		Mockito.when(rsMock.getString("name")).thenReturn("test");
 		Company company = mapperCompany.mapFromResultSet(rsMock);
@@ -30,7 +30,7 @@ public class TestMapperCompany {
 	@Test
 	public void testMapFromModelToDTO() {
 
-		MapperCompany mapperCompany = new MapperCompany();
+		CompanyMapper mapperCompany = new CompanyMapper();
 		Company company = new Company.CompanyBuilder(1L).name("test").build();
 		CompanyDTO companyDTO = mapperCompany.mapFromModelToDTO(company);
 		CompanyDTO companyDTOExpected = new CompanyDTO.CompanyDTOBuilder("1").name("test").build();

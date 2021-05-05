@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.dto.persistence.ComputerEntity;
@@ -16,10 +15,13 @@ import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 @Component
-public class MapperComputer {
+public class ComputerMapper {
 
-	@Autowired
-	MapperCompany mapperCompany;
+	private final CompanyMapper companyMapper;
+	
+	public ComputerMapper(CompanyMapper companyMapper) {
+		this.companyMapper = companyMapper;
+	}
 
 	public ComputerDTOList mapFromModelToDTOList(Computer computer) {
 		ComputerDTOList computerDTO = new ComputerDTOList();
@@ -90,7 +92,7 @@ public class MapperComputer {
 				.introduced(computerDTOPersistence.getIntroduced()).build();
 		if (computerDTOPersistence.getCompanyEntity() != null) {
 			computer.setCompany(
-					mapperCompany.mapFromDTOPersistenceToModel(computerDTOPersistence.getCompanyEntity()));
+					companyMapper.mapFromDTOPersistenceToModel(computerDTOPersistence.getCompanyEntity()));
 		}
 
 		return computer;
@@ -110,22 +112,18 @@ public class MapperComputer {
 						.introduced(computer.getIntroduced()).build();
 		if (computer.getCompany() != null) {
 			computerDTOPersistance
-					.setCompanyEntity(mapperCompany.mapFromModelToDTOPersistence(computer.getCompany()));
+					.setCompanyEntity(companyMapper.mapFromModelToDTOPersistence(computer.getCompany()));
 		}
 
 		return computerDTOPersistance;
 	}
-
-//	public List<ComputerDTOPersistance> mapFromModelListToDTORestList(List<ComputerDTOPersistance>){
-//		return null;
-//	}
 
 	public ComputerDTORest mapFromModelToDTORest(Computer computer) {
 		ComputerDTORest computerDTOPersistance = new ComputerDTORest.ComputerDTORestBuilder(computer.getId())
 				.name(computer.getName()).discontinued(computer.getDiscontinued()).introduced(computer.getIntroduced())
 				.build();
 		if (computer.getCompany() != null) {
-			computerDTOPersistance.setCompanyDTORest(mapperCompany.mapFromModelToDTORest(computer.getCompany()));
+			computerDTOPersistance.setCompanyDTORest(companyMapper.mapFromModelToDTORest(computer.getCompany()));
 		}
 
 		return computerDTOPersistance;
@@ -139,7 +137,7 @@ public class MapperComputer {
 		Computer computer = new Computer.ComputerBuilder(computerDTORest.getId()).name(computerDTORest.getName())
 				.discontinued(computerDTORest.getDiscontinued()).introduced(computerDTORest.getIntroduced()).build();
 		if (computerDTORest.getCompanyDTORest() != null) {
-			computer.setCompany(mapperCompany.mapFromDTORestToModel(computerDTORest.getCompanyDTORest()));
+			computer.setCompany(companyMapper.mapFromDTORestToModel(computerDTORest.getCompanyDTORest()));
 		}
 
 		return computer;

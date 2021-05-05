@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.excilys.cdb.dto.web.ComputerDTOList;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
@@ -29,7 +29,7 @@ public class ListComputer {
 	@Autowired
 	private PageService pageService;
 	@Autowired
-	private MapperComputer mapperComputer;
+	private ComputerMapper mapperComputer;
 	@Autowired
 	private SessionAttributes sessionAttributes;
 

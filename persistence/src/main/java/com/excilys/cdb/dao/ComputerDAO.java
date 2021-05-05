@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.cdb.dto.persistence.ComputerEntity;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
-import com.excilys.cdb.mapper.MapperComputer;
+import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 
@@ -23,7 +23,7 @@ import com.excilys.cdb.model.Page;
 public class ComputerDAO {
 
 	private final SessionFactory sessionFactory;
-	private final MapperComputer mapperComputer;
+	private final ComputerMapper mapperComputer;
 
 	private static final String HQL_UPDATE = "UPDATE ComputerEntity SET name=:name, introduced=:introduced, discontinued=:discontinued, companyEntity.id=:companyId WHERE id=:id";
 	private static final String HQL_DELETE = "DELETE FROM ComputerEntity WHERE id=:id";
@@ -35,7 +35,7 @@ public class ComputerDAO {
 	private static final String HQL_SEARCH_BY_NAME_COMPA_COMPU = "FROM ComputerEntity computer left join fetch computer.companyEntity as company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ORDER BY ORDERATTRIBUTE ORDERSORT ";
 	private static final String HQL_SEARCH_BY_NAME_COUNT = "SELECT COUNT(computer.id) FROM ComputerEntity computer left join computer.companyEntity  company WHERE lower(computer.name) LIKE :nameComputer OR lower(company.name) LIKE :nameCompany ";
 
-	public ComputerDAO(SessionFactory sessionFactory, MapperComputer mapperComputer) {
+	public ComputerDAO(SessionFactory sessionFactory, ComputerMapper mapperComputer) {
 		this.mapperComputer = mapperComputer;
 		this.sessionFactory = sessionFactory;
 	}

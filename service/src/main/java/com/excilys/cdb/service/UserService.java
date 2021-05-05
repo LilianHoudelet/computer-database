@@ -29,6 +29,10 @@ public class UserService {
 		return userDao.findByUsername(username);
 	}
 	
+	public Optional<User> findByEmail(String email) {
+		return userDao.findByEmail(email);
+	}
+	
 	public void deleteById(Long id) {
 		userDao.deleteById(id);
 	}

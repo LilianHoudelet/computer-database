@@ -11,12 +11,10 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.dto.persistence.CompanyEntity;
 import com.excilys.cdb.dto.persistence.UserEntity;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.logger.LoggerCdb;
-import com.excilys.cdb.mapper.MapperUser;
-import com.excilys.cdb.model.Company;
+import com.excilys.cdb.mapper.UserMapper;
 import com.excilys.cdb.model.User;
 
 @Repository
@@ -25,12 +23,13 @@ public class UserDAO {
 	
 	private static final String HQL_ALL_USERS = "FROM UserEntity";
 	private static final String HQL_DELETE = "DELETE FROM UserEntity WHERE id=:id;";
-	private static final String HQL_FIND_BY_USERNAME = "FROM UserEntity user left join fetch user.roleEntity as role WHERE user.username = :username"; //TODO
+	private static final String HQL_FIND_BY_USERNAME = "FROM UserEntity user left join fetch user.roleEntity as role WHERE user.username = :username";
+	private static final String HQL_FIND_BY_EMAIL = "FROM UserEntity user left join fetch user.roleEntity as role WHERE user.email = :email";
 	
 	private final SessionFactory sessionFactory;
-	private final MapperUser mapperUser;
+	private final UserMapper mapperUser;
 
-	public UserDAO(SessionFactory sessionFactory, MapperUser mapperUser) {
+	public UserDAO(SessionFactory sessionFactory, UserMapper mapperUser) {
 		this.mapperUser = mapperUser;
 		this.sessionFactory = sessionFactory;
 	}
@@ -57,6 +56,22 @@ public class UserDAO {
 			Query<UserEntity> query = session.createQuery(HQL_FIND_BY_USERNAME, UserEntity.class);
 
 			query.setParameter("username", username);
+			query.setMaxResults(1);
+			user = Optional.ofNullable(mapperUser.mapToUser(query.getSingleResult()));
+		} catch (HibernateException e) {
+			LoggerCdb.logError(this.getClass(), e);
+		}
+		return user;
+	}
+	
+	public Optional<User> findByEmail(String email) throws DAOException {
+		Optional<User> user = Optional.empty();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+
+			Query<UserEntity> query = session.createQuery(HQL_FIND_BY_EMAIL, UserEntity.class);
+
+			query.setParameter("email", email);
 			query.setMaxResults(1);
 			user = Optional.ofNullable(mapperUser.mapToUser(query.getSingleResult()));
 		} catch (HibernateException e) {

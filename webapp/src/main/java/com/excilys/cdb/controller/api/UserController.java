@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.excilys.cdb.mapper.MapperUser;
+import com.excilys.cdb.mapper.UserMapper;
 import com.excilys.cdb.model.User;
 import com.excilys.cdb.service.UserService;
 
@@ -18,9 +18,9 @@ public class UserController {
 	//TODO Add web DTO to replace object
 	
 	private final UserService userService;
-	private final MapperUser userMapper;
+	private final UserMapper userMapper;
 	
-	public UserController(UserService userService, MapperUser userMapper) {
+	public UserController(UserService userService, UserMapper userMapper) {
 		this.userService = userService;
 		this.userMapper = userMapper;
 	}
@@ -31,8 +31,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/{username}")
-	public User getUserByName(@PathVariable String username) {
+	public User getUserByUsername(@PathVariable String username) {
 		return userService.findByUsername(username).get();
+	}
+	
+	@GetMapping("/{email}")
+	public User getUserByEmail(@PathVariable String email) {
+		return userService.findByUsername(email).get();
 	}
 
 }

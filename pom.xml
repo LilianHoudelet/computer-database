@@ -17,18 +17,29 @@
 		<junit.version>4.12</junit.version>
 		<mockito.version>1.10.19</mockito.version>
 		<dbunit.version>2.7.0</dbunit.version>
-		<jstl.version>1.2</jstl.version>
 		<selenium.version>3.141.59</selenium.version>
 		<phantomjs.version>1.4.1</phantomjs.version>
 		<dbUnit.version>2.7.0</dbUnit.version>
 		<h2database.version>1.4.200</h2database.version>
-		<javax.servlet.version>3.0.1 </javax.servlet.version>
-		<spring-webmvc.version>5.2.0.RELEASE</spring-webmvc.version>
 		<spring-test.version>5.2.0.RELEASE</spring-test.version>
 		<spring-test-dbunit.version>1.3.0</spring-test-dbunit.version>
+		
+		<jcl.slf4j.version>1.7.30</jcl.slf4j.version>
+		<logback-core.version>1.2.3</logback-core.version>
+		<slf4j-api.version>1.7.30</slf4j-api.version>
+		<logback-classic.version>1.2.3</logback-classic.version>
+		
+		<javax.servlet.version>3.0.1 </javax.servlet.version>
+		<spring-webmvc.version>5.2.0.RELEASE</spring-webmvc.version>
 		<spring-security.version>5.2.0.RELEASE</spring-security.version>
 		<validation-api.version>2.0.1.Final</validation-api.version>
 		<jackson-core.version>2.12.3</jackson-core.version>
+		<jstl.version>1.2</jstl.version>
+		
+		<mysql-connector-java.version>8.0.23</mysql-connector-java.version>
+		<HikariCP.version>4.0.3</HikariCP.version>
+		<hibernate-core.version>5.4.30.Final</hibernate-core.version>
+		<hsqldb.version>2.6.0</hsqldb.version>
 	</properties>
 
 	<build>

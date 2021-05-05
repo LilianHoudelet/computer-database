@@ -12,9 +12,9 @@
 
 	<artifactId>binding</artifactId>
 	<packaging>jar</packaging>
+	
 	<properties>
-		<spring-webmvc.version>5.3.5</spring-webmvc.version>
-		<hibernate-core.version>5.4.30.Final</hibernate-core.version>
+		
 	</properties>
 
 	<dependencies>

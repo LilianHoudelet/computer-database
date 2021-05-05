@@ -47,10 +47,10 @@ public class EditComputer {
 	protected ModelAndView showEditComputer(@RequestParam(required = true) String id, ModelMap modelMap) {
 		ModelAndView modelAndView = new ModelAndView("editComputer", "computerDTOEdit", new ComputerDTOEdit());
 		modelAndView.addAllObjects(modelMap);
-		List<Company> listCompanies = this.companyService.searchAllCompany();
+		List<Company> listCompanies = this.companyService.getCompanies();
 		Map<String, String> mapCompanies = mapperCompany.mapFromModelListToDTOList(listCompanies).stream()
 				.collect(Collectors.toMap(CompanyDTO::getId, companyDTO -> companyDTO.getName()));
-		Computer computer = computerService.searchByIdComputer(Long.parseLong(id))
+		Computer computer = computerService.findComputerById(Long.parseLong(id))
 				.orElseGet(() -> new Computer.ComputerBuilder(Long.parseLong(id)).build());
 		ComputerDTOList computerDTO = mapperComputer.mapFromModelToDTOList(computer);
 		modelAndView.addObject("id", id);

@@ -1,98 +1,70 @@
 package com.excilys.cdb.controller.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.excilys.cdb.dto.rest.ComputerDTORest;
-import com.excilys.cdb.exception.InputException;
+import com.excilys.cdb.exception.ComputerNotFoundException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
-import com.excilys.cdb.service.PageService;
 
 @RestController
-@RequestMapping("/api/computer")
+@RequestMapping("/api/computers")
 public class ComputerAPI { // TODO renommer les variables pour les pages
-	
+
 	private ComputerService computerService;
-	private PageService pageService;
 	private MapperComputer mapperComputer;
-	
-	public ComputerAPI(ComputerService computerService, PageService pageService, MapperComputer mapperComputer) {
+
+	public ComputerAPI(ComputerService computerService, MapperComputer mapperComputer) {
 		this.computerService = computerService;
-		this.pageService = pageService;
 		this.mapperComputer = mapperComputer;
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getComputer() {
+	public ResponseEntity<?> getComputers(@RequestParam(required = false) Long id) {
+		if (id == null) {
+			List<Computer> listComputer = null;
+			listComputer = computerService.findComputers();
 
-		List<Computer> listComputer = null;
-		try {
-			listComputer = this.computerService.searchAllComputer();
-			if (listComputer.size() == 0) {
-				throw new InputException("No computer found.");
+			List<ComputerDTORest> listDTO = mapperComputer.mapFromListModelToListDTORest(listComputer);
+
+			return new ResponseEntity<>(listDTO, HttpStatus.OK);
+		} else {
+			Computer computer = null;
+			try {
+				computer = computerService.findComputerById(id).orElseThrow();
+			} catch (ComputerNotFoundException e) {
+				LoggerCdb.logError(getClass(), e);
+				return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 			}
-		} catch (InputException e) {
-			LoggerCdb.logError(getClass(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			ComputerDTORest computerDTO = mapperComputer.mapFromModelToDTORest(computer);
+			return new ResponseEntity<>(computerDTO, HttpStatus.OK);
 		}
-		List<ComputerDTORest> listDTO = mapperComputer.mapFromListModelToListDTORest(listComputer);
-
-		return new ResponseEntity<>(listDTO, HttpStatus.OK);
 	}
 
-	@GetMapping(value = { "/page" }, produces = "application/json")
-	public ResponseEntity<?> getComputerPage(@RequestParam(required = false) Integer numPage,
-			@RequestParam(required = false) Integer nbObject, @RequestParam(required = false) String orderBy,
-			@RequestParam(required = false) String sort, @RequestParam(required = false) String name) {
-		Page<Computer> page = new Page<Computer>();
-		setOrderBy(page, orderBy, sort);
-		setPageInt(page, numPage);
-
-		setObjectPerPage(page, nbObject);
-		List<Computer> listComputer = null;
-		try {
-			if (name == null) {
-				listComputer = this.pageService.searchAllComputerPagination(page);
-				if (listComputer.size() == 0) {
-					throw new InputException("No computer found. Please, verify the information.");
-				}
-			} else {
-				listComputer = this.pageService.searchNamePagination(page, name);
-				if (listComputer.size() == 0) {
-					throw new InputException("No computer found. Please, verify the information.");
-				}
-			}
-		} catch (InputException e) {
-			LoggerCdb.logError(getClass(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		List<ComputerDTORest> listDTO = mapperComputer.mapFromListModelToListDTORest(listComputer);
-
-		return new ResponseEntity<>(listDTO, HttpStatus.OK);
-	}
-
-	@GetMapping(value = { "/search" }, produces = "application/json")
-	public ResponseEntity<?> getComputerSearch(@RequestParam Long id) {
+	@GetMapping(value = { "/{id}" })
+	public ResponseEntity<?> getComputer(@PathVariable Long id) {
 		Computer computer = null;
 		try {
-			computer = this.computerService.searchByIdComputer(id)
-					.orElseThrow(() -> new InputException("No computer found. Please verify the id."));
+			computer = computerService.findComputerById(id).orElseThrow();
 
-		} catch (InputException e) {
+		} catch (ComputerNotFoundException e) {
 			LoggerCdb.logError(getClass(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
@@ -100,79 +72,59 @@ public class ComputerAPI { // TODO renommer les variables pour les pages
 		return new ResponseEntity<>(computerDTO, HttpStatus.OK);
 	}
 
-	@GetMapping(value = { "/count" }, produces = "application/json")
+	@GetMapping(value = { "/page" })
+	public ResponseEntity<?> getComputerPage(@RequestParam(required = false) Integer page,
+			@RequestParam(required = false) Integer nbObject, @RequestParam(required = false) String orderBy,
+			@RequestParam(required = false) String sort, @RequestParam(required = false) String name) {
+		Page<Computer> computerPage = new Page<Computer>();
+		setOrderBy(computerPage, orderBy, sort);
+		setPageInt(computerPage, page);
+
+		setObjectPerPage(computerPage, nbObject);
+		List<Computer> listComputer = new ArrayList<Computer>();
+		try {
+			if (name == null) {
+				listComputer = computerService.getComputerPage(computerPage);
+			} else {
+				listComputer = computerService.getComputerPage(computerPage, name);
+			}
+		} catch (ComputerNotFoundException e) {
+			LoggerCdb.logError(getClass(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		List<ComputerDTORest> listDTO = mapperComputer.mapFromListModelToListDTORest(listComputer);
+		return new ResponseEntity<>(listDTO, HttpStatus.OK);
+	}
+
+	@GetMapping(value = { "/count" })
 	public ResponseEntity<?> getComputerCount() {
-		Integer countComputer;
 		try {
-			countComputer = this.computerService.countComputer();
-			if (countComputer == 0) {
-				throw new InputException("No computer found.");
-			}
-		} catch (InputException e) {
+			return new ResponseEntity<>(computerService.countComputer(), HttpStatus.OK);
+		} catch (ComputerNotFoundException e) {
 			LoggerCdb.logError(getClass(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(countComputer, HttpStatus.OK);
 	}
 
-	@PostMapping(value = { "/delete" }, produces = "application/json")
-	public ResponseEntity<?> deleteCompute(@RequestParam Long id) {
-		boolean status;
-		try {
-			status = this.computerService.deleteComputer(id);
-			if (!status) {
-				throw new InputException("The computer wasn't deleted. Please verify the id.");
-			}
-		} catch (InputException e) {
-			LoggerCdb.logError(getClass(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(status, HttpStatus.OK);
+	@GetMapping(value = { "/{name}/count" })
+	public void getComputerCountSearch(@PathVariable String name) {
+		computerService.countComputer(name);
 	}
 
-	@PostMapping(value = { "/update" }, produces = "application/json")
-	public ResponseEntity<?> updateCompute(@RequestBody ComputerDTORest computerDTORest, BindingResult bindingResult) {
-		boolean status;
-		try {
-			status = this.computerService.updateComputer(mapperComputer.mapFromDTORestToModel(computerDTORest));
-			if (!status) {
-				throw new InputException("The computer wasn't updated. Please verify the informations.");
-			}
-		} catch (InputException e) {
-			LoggerCdb.logError(getClass(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(status, HttpStatus.OK);
+	@DeleteMapping(value = { "/{id}" })
+	public void deleteCompute(@PathVariable Long id) {
+		computerService.deleteComputer(id);
 	}
 
-	@PostMapping(value = { "/create" }, produces = "application/json")
-	public ResponseEntity<?> createCompute(@RequestBody ComputerDTORest computerDTORest, BindingResult bindingResult) {
-		boolean status;
-		try {
-			status = this.computerService.createComputer(mapperComputer.mapFromDTORestToModel(computerDTORest));
-			if (!status) {
-				throw new InputException("The computer wasn't created. Please verify the informations.");
-			}
-		} catch (InputException e) {
-			LoggerCdb.logError(getClass(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(status, HttpStatus.OK);
+	@PutMapping(value = { "/{id}" })
+	public void updateCompute(@PathVariable Long id, @RequestBody ComputerDTORest computerDTORest,
+			BindingResult bindingResult) {
+		computerService.updateComputer(mapperComputer.mapFromDTORestToModel(computerDTORest));
 	}
 
-	@GetMapping(value = { "/count/{name}" }, produces = "application/json")
-	public ResponseEntity<?> getComputerCountSearch(@PathVariable String name) {
-		Integer countComputer;
-		try {
-			countComputer = this.computerService.searchNameCount(name);
-			if (countComputer == 0) {
-				throw new InputException("No computer found. Please verify the name");
-			}
-		} catch (InputException e) {
-			LoggerCdb.logError(getClass(), e);
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(countComputer, HttpStatus.OK);
+	@PostMapping
+	public void createCompute(@RequestBody ComputerDTORest computerDTORest, BindingResult bindingResult) {
+		computerService.createComputer(mapperComputer.mapFromDTORestToModel(computerDTORest));
 	}
 
 	private void setOrderBy(Page<Computer> page, String orderBy, String sort) {
@@ -186,7 +138,6 @@ public class ComputerAPI { // TODO renommer les variables pour les pages
 		} else {
 			page.setOrderSort("asc");
 		}
-
 	}
 
 	private void setPageInt(Page<Computer> page, Integer pageno) {

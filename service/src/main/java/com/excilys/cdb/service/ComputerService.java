@@ -1,16 +1,17 @@
 package com.excilys.cdb.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Service;
 
 import com.excilys.cdb.dao.ComputerDAO;
-import com.excilys.cdb.exception.DAOConfigurationException;
-import com.excilys.cdb.exception.DAOException;
+import com.excilys.cdb.exception.ComputerNotFoundException;
 import com.excilys.cdb.logger.LoggerCdb;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.model.Page;
 
 @Service
 public class ComputerService {
@@ -22,96 +23,57 @@ public class ComputerService {
 		this.computerDAO = computerDAO;
 	}
 
-	public List<Computer> searchAllComputer() {
-		try {
-			return computerDAO.getAll();
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
-		} catch (DAOException e) {
-			LoggerCdb.logError(getClass(), e);
-		}
-		return new ArrayList<Computer>();
+	public List<Computer> findComputers() {
+		return computerDAO.getAll();
 	}
 
-	public Optional<Computer> searchByIdComputer(Long idToSearch) {
+	public Optional<Computer> findComputerById(Long idToSearch) {
 		try {
 			Optional<Computer> compSearched = computerDAO.search(idToSearch);
-			
 			return compSearched;
-		} catch (DAOException e) {
+		} catch (NoResultException e) {
 			LoggerCdb.logError(getClass(), e);
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
+			throw new ComputerNotFoundException("No computer were found for the id " + idToSearch);
 		}
-		return Optional.empty();
-	}
-
-	public boolean createComputer(Computer compToCreate) { // TODO améliorer le systeme avec le boolean 
-		boolean success = false;
-		try {
-
-			computerDAO.create(compToCreate);
-			success = true;
-
-		} catch (DAOException e) {
-			LoggerCdb.logError(getClass(), e);
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
-		}
-		return success;
-	}
-
-	public boolean updateComputer(Computer compToUpdate) { // TODO améliorer le systeme avec le boolean 
-		boolean success = false;
-		try {
-			computerDAO.update(compToUpdate);
-			success = true;
-
-		} catch (DAOException e) {
-			LoggerCdb.logError(getClass(), e);
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
-		}
-		return success;
-	}
-
-	public boolean deleteComputer(Long compToDeleteID) { // TODO améliorer le systeme avec le boolean 
-		boolean success = false;
-		try {
-			computerDAO.delete(compToDeleteID);
-			success = true;
-
-		} catch (DAOException e) {
-			LoggerCdb.logError(getClass(), e);
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
-		}
-
-		return success;
 	}
 
 	public int countComputer() {
-		int nbComputer = 0;
-		try {
-			nbComputer = computerDAO.count();
-		} catch (DAOException e) {
-			LoggerCdb.logError(getClass(), e);
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
-		}
-		return nbComputer;
+		return computerDAO.count();
 	}
 
-	public int searchNameCount(String name) {
-		int nbComputer = 0;
+	public int countComputer(String name) {
+		return computerDAO.count(name);
+	}
+	
+	public List<Computer> getComputerPage(Page<Computer> page) {
 		try {
-			nbComputer = computerDAO.count(name);
-		} catch (DAOException e) {
+			return computerDAO.getPage(page);
+		} catch (NoResultException e) {
 			LoggerCdb.logError(getClass(), e);
-		} catch (DAOConfigurationException e) {
-			LoggerCdb.logError(getClass(), e);
+			throw new ComputerNotFoundException("No computers were find for this page");
 		}
-		return nbComputer;
+	}
+
+	public List<Computer> getComputerPage(Page<Computer> page, String name) {
+		try {
+			List<Computer> computers = computerDAO.getPage(page, name);
+			return computers;
+		} catch (NoResultException e) {
+			LoggerCdb.logError(getClass(), e);
+			throw new ComputerNotFoundException("No computers were found for the filter " + name);
+		}
+	}
+
+	public void createComputer(Computer compToCreate) {
+		computerDAO.create(compToCreate);
+	}
+
+	public void updateComputer(Computer compToUpdate) {
+		computerDAO.update(compToUpdate);
+	}
+
+	public void deleteComputer(Long compToDeleteID) {
+		computerDAO.delete(compToDeleteID);
 	}
 
 }

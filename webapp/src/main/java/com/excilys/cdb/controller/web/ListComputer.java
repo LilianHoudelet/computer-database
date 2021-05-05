@@ -20,14 +20,11 @@ import com.excilys.cdb.mapper.MapperComputer;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.model.Page;
 import com.excilys.cdb.service.ComputerService;
-import com.excilys.cdb.service.PageService;
 
 @Controller
 public class ListComputer {
 	@Autowired
 	private ComputerService computerService;
-	@Autowired
-	private PageService pageService;
 	@Autowired
 	private MapperComputer mapperComputer;
 	@Autowired
@@ -46,12 +43,12 @@ public class ListComputer {
 		setPageInt(page, pageno);
 		setObjectPerPage(page);
 		if (search != null) {
-			page.setNbComputer(this.computerService.searchNameCount(search));
-			page.setContentPage(this.pageService.searchNamePagination(page, search));
+			page.setNbComputer(this.computerService.countComputer(search));
+			page.setContentPage(this.computerService.getComputerPage(page, search));
 
 		} else {
 			page.setNbComputer(this.computerService.countComputer());
-			page.setContentPage(this.pageService.searchAllComputerPagination(page));
+			page.setContentPage(this.computerService.getComputerPage(page));
 		}
 		page.setPageMax();
 		page.setIndex();

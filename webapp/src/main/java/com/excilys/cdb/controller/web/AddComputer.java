@@ -44,7 +44,7 @@ public class AddComputer {
 
 		modelAndView.addAllObjects(modelMap);
 
-		List<Company> listCompanies = this.companyService.searchAllCompany();
+		List<Company> listCompanies = this.companyService.getCompanies();
 		List<CompanyDTO> listCompaniesDTO = listCompanies.stream().map(c -> mapperCompany.mapFromModelToDTO(c))
 				.collect(Collectors.toList());
 

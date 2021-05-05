@@ -88,12 +88,12 @@ public class ComputerAPI { // TODO renommer les variables pour les pages
 			} else {
 				listComputer = computerService.getComputerPage(computerPage, name);
 			}
+			List<ComputerDTORest> listDTO = mapperComputer.mapFromListModelToListDTORest(listComputer);
+			return new ResponseEntity<>(listDTO, HttpStatus.OK);
 		} catch (ComputerNotFoundException e) {
 			LoggerCdb.logError(getClass(), e);
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		List<ComputerDTORest> listDTO = mapperComputer.mapFromListModelToListDTORest(listComputer);
-		return new ResponseEntity<>(listDTO, HttpStatus.OK);
 	}
 
 	@GetMapping(value = { "/count" })

@@ -34,7 +34,7 @@ public class CompanyService {
 		}
 	}
 
-	public void deleteCompany(Long compToDeleteID) { // TODO améliorer le systeme avec le boolean
+	public void deleteCompany(Long compToDeleteID) { 
 		companyDAO.delete(compToDeleteID);
 	}
 }

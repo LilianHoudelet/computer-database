@@ -107,8 +107,13 @@ public class ComputerAPI { // TODO renommer les variables pour les pages
 	}
 
 	@GetMapping(value = { "/{name}/count" })
-	public void getComputerCountSearch(@PathVariable String name) {
-		computerService.countComputer(name);
+	public ResponseEntity<?> getComputerCountSearch(@PathVariable String name) {
+		try {
+			return new ResponseEntity<>(computerService.countComputer(name), HttpStatus.OK);
+		} catch (ComputerNotFoundException e) {
+			LoggerCdb.logError(getClass(), e);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@DeleteMapping(value = { "/{id}" })
